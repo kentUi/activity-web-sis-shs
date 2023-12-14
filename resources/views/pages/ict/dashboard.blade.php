@@ -52,12 +52,12 @@
                                         $student = Student::where('student_ict_id', $user['id'])->first();
                                     @endphp
                                     <div class="data">
-                                        <div class="amount">{{ $student->count() }}</div>
+                                        {{-- <div class="amount">{{ $student->count() }}</div> --}}
                                     </div>
                                     <div class="data">
                                         <h6 class="sub-title">Teachers</h6>
                                         <div class="data-group">
-                                            <div class="amount">{{ $teacher->count() }}</div>
+                                            {{-- <div class="amount">{{ $teacher->count() }}</div> --}}
                                         </div>
                                     </div>
                                 </div>

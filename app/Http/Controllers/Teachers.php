@@ -153,15 +153,16 @@ class Teachers extends Controller
         return view('pages.teachers.grade')->with(['response' => $students, 'subjects' => $subjects]);
     }
 
-    public static function attendance($sec, $subj, $quarter)
+    public static function attendance($id)
     {
-        $student = new Student;
-        $students = $student::where('student_secid', $sec)->orderBy('student_lname', 'ASC')->get();
+        return view('pages.teachers.attendance');
+        // $student = new Student;
+        // $students = $student::where('student_secid', $sec)->orderBy('student_lname', 'ASC')->get();
 
-        $subject = new Subject;
-        $subjects = $subject::where('subj_id', $subj)->first();
+        // $subject = new Subject;
+        // $subjects = $subject::where('subj_id', $subj)->first();
 
-        return view('pages.teachers.attendance')->with(['response' => $students, 'subjects' => $subjects, 'quarter' => $quarter]);
+        // return view('pages.teachers.attendance')->with(['response' => $students, 'subjects' => $subjects, 'quarter' => $quarter]);
     }
 
     public static function rstudents($subject, $section, $quarter)

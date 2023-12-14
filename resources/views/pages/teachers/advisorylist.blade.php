@@ -73,10 +73,22 @@
                                                                 class="icon ni ni-more-h"></em></a>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <ul class="link-list-opt no-bdr">
-                                                                <li>
+                                                                {{-- <li>
                                                                     <a href="/teacher/students/">
                                                                         <em class="icon ni ni-download-cloud"></em>
                                                                         <span> Generate Form 137</span>
+                                                                    </a>
+                                                                </li> --}}
+                                                                <li>
+                                                                    <a href="/teacher/details/{{$rw->student_id}}">
+                                                                        <em class="icon ni ni-users"></em>
+                                                                        <span> View Grades</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="/teacher/attendance/{{$rw->student_id}}">
+                                                                        <em class="icon ni ni-book"></em>
+                                                                        <span> Attendance & Values</span>
                                                                     </a>
                                                                 </li>
                                                                 <li>
@@ -85,6 +97,7 @@
                                                                         <span> Generate Form 138</span>
                                                                     </a>
                                                                 </li>
+
                                                             </ul>
                                                         </div>
                                                     </div>

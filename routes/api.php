@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Attendance;
+use App\Models\Values;
 use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\Section;
@@ -120,5 +122,59 @@ Route::post('/quarter', function (Request $request) {
         }else{            
             Quarter::where('q_id', 1)->update(['q_4th' => 'true']);
         }
+    }
+});
+
+Route::post('/upload/attendance', function (Request $request) {
+
+    $find = [
+        'at_studentid' => $request->input('id'),
+        'at_type' => $request->input('type'),
+        'at_month' => $request->input('month'),
+    ];
+
+    $data = [
+        'at_studentid' => $request->input('id'),
+        'at_type' => $request->input('type'),
+        'at_month' => $request->input('month'),
+        'at_count' => $request->input('count')
+    ];
+
+
+    $count = Attendance::where($find)->count();
+
+    if ($count == 0) {
+        Attendance::create($data);
+        echo 'saved';
+    } else {
+        Attendance::where($find)->update($data);
+        echo 'updated';
+    }
+});
+
+Route::post('/upload/values', function (Request $request) {
+
+    $find = [
+        'val_studentid' => $request->input('id'),
+        'val_type' => $request->input('type'),
+        'val_quarter' => $request->input('quarter'),
+    ];
+
+    $data = [
+        'val_studentid' => $request->input('id'),
+        'val_type' => $request->input('type'),
+        'val_quarter' => $request->input('quarter'),
+        'val_result' => $request->input('value')
+    ];
+
+
+    $count = Values::where($find)->count();
+
+    if ($count == 0) {
+        Values::create($data);
+        echo 'saved';
+    } else {
+        Values::where($find)->update($data);
+        echo 'updated';
     }
 });

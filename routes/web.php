@@ -9,6 +9,7 @@ use App\Http\Controllers\Sections;
 use App\Http\Controllers\Strands;
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\ExcelImportController;
+use App\Http\Controllers\Printing;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -44,8 +45,9 @@ Route::get('/teacher/advisory', [Teachers::class, 'advisory']);
 Route::get('/teacher/advisory/list/{id}', [Teachers::class, 'advisory_list']);
 
 Route::get('/teacher/details/{id}', [Teachers::class, 'details']);
+Route::get('/teacher/attendance/{id}', [Teachers::class, 'attendance']);
 Route::get('/teacher/students/{sec}/{subj}', [Teachers::class, 'grade']);
-Route::get('/teacher/attendance/{sec}/{subj}/{quarter}', [Teachers::class, 'attendance']);
+Route::get('/teacher/xattendance/{sec}/{subj}/{quarter}', [Teachers::class, 'attendance']);
 Route::get('/teacher/137/{sec}', [Teachers::class, 'form137']);
 
 // Student Controller
@@ -102,3 +104,6 @@ Route::get('/teacher/subject/{subject}/{section}/{quarter}', [Teachers::class, '
 
 // Import Excel
 Route::post('import/excel', [ExcelImportController::class, 'import'])->name('import.excel');
+
+// Print Form
+Route::get('/print/form9/{id}', [Printing::class, 'form9']);
