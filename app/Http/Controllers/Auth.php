@@ -30,6 +30,7 @@ class Auth extends Controller
                 'mobile' => $user->user_mobile,
                 'name' => $user->user_lname . ', ' . $user->user_fname,
                 'email' => $user->email,
+                'schoolid' => $user->user_schoolid,
                 'type' => $user->user_type
             ]]);
             return redirect('/user');
@@ -42,7 +43,7 @@ class Auth extends Controller
     public static function register(Request $request){
         User::create([
             'user_linkid' => 0,
-            'user_schoolid' => 0,
+            'user_schoolid' => $request->inp_schoolid,
             'user_fname' => $request->inp_fname,
             'user_lname' => $request->inp_lname,
             'user_mobile' => $request->inp_mobile,
@@ -50,7 +51,7 @@ class Auth extends Controller
             'password' => Hash::make($request->inp_password),
             'user_type' => 'ICT'
         ]);
-        return redirect('/register?s');
+        return redirect('/admin/ict?register&s');
     }
 
     public function logout(){

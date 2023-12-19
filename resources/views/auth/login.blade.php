@@ -31,9 +31,9 @@
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Student Information System</h4>
                                         <div class="nk-block-des">
-                                            <p>
+                                            {{-- <p>
                                                 No Account Yet ? <a href="/register"> Register here </a>
-                                            </p>
+                                            </p> --}}
                                             <hr>
                                         </div>
                                     </div>

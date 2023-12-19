@@ -118,7 +118,7 @@
 
                                     <br>
                                     <span class="text-mute">Strand : </span> <b>{{ $strands[0]->of_strands }}</b>
-                                    <hr>
+                                    <hr> 
                                     <div class="row">
                                         <form action="{{ route('teacher.assign') }}" method="POST">
                                             @csrf

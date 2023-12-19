@@ -5,6 +5,7 @@
     use App\Models\Student;
     use App\Models\Teacher;
     use App\Models\Assigned;
+    use App\Models\Schools;
     $user = session('info');
 @endphp
 @section('content')
@@ -53,13 +54,9 @@
     @elseif ($user['type'] == 'admin')
         @php
             $teacherid = $user['id'];
-            $section = new Section();
-            $response = $section
-                ::where('sec_strand', 33)
-                ->orderBy('sec_name', 'DESC')
-                ->get();
+            $response = Schools::get();
         @endphp
-        @include('pages.ict.dashboard', ['response' => $response])
+        @include('pages.admin.dashboard', ['response' => $response])
     @elseif ($user['type'] == 'teacher')
         @php
             $teacher_fk = $user['email'];

@@ -10,6 +10,8 @@ class Strand extends Model
     use HasFactory;
     protected $table = 't_strands';
     protected $fillable = [
-        'of_strands'
+        'of_schoolid',
+        'of_strands',
+        'of_code'
     ];
 }

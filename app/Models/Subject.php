@@ -12,6 +12,7 @@ class Subject extends Model
     protected $table = 't_subjects';
     protected $fillable = [
         'subj_title',
+        'subj_schoolid',
         'subj_description',
         'subj_strand',
         'subj_gradelevel'

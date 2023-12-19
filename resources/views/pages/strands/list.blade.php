@@ -20,7 +20,7 @@
                     <div class="card-inner-group">
                         <div class="card-inner">
                             <a class="btn btn-primary d-none d-md-inline-flex" style="float: right"
-                                href="/subjects/register"><em class="icon ni ni-plus"></em><span>Create Strand</span></a>
+                                href="/strand/register"><em class="icon ni ni-plus"></em><span>Create Strand</span></a>
                             <table class="datatable-init table">
                                 <thead>
                                     <tr>
@@ -45,7 +45,7 @@
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <ul class="link-list-opt no-bdr">
                                                                 <li>
-                                                                    <a href="/sections/view/{{ $rw->sec_id }}">
+                                                                    <a href="/strand/details/{{ $rw->of_id }}">
                                                                         <em class="icon ni ni-eye"></em>
                                                                         <span>View Details</span>
                                                                     </a>

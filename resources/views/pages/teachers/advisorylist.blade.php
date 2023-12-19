@@ -92,7 +92,7 @@
                                                                     </a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="/teacher/students/">
+                                                                    <a target="_blank" href="/print/form9/{{$rw->student_id}}">
                                                                         <em class="icon ni ni-download-cloud"></em>
                                                                         <span> Generate Form 138</span>
                                                                     </a>

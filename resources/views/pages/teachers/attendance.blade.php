@@ -26,7 +26,7 @@
                                     <th style="background-color: #D0CECE;" width="170"></th>
                                     @php
                                         $months = ['Aug', 'Sept', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Aprl', 'May', 'June', 'July'];
-                                        $id = 1;
+                                        //$id = 1;
                                     @endphp
                                     @foreach ($months as $month)
                                         <th style="background-color: #D0CECE;">{{ $month }}</th>

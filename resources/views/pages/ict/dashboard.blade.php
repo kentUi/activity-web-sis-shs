@@ -48,16 +48,20 @@
                                     @php
                                         use App\Models\Student;
                                         use App\Models\Teacher;
-                                        $teacher = Teacher::where('tech_ict_id', $user['id'])->first();
-                                        $student = Student::where('student_ict_id', $user['id'])->first();
+                                        use App\Models\Schools;
+
+                                        $schools = Schools::where('sc_id', $user['schoolid'])->first();
+
+                                        $teacher = Teacher::where('tech_ict_id', $user['schoolid'])->count();
+                                        $student = Student::where('student_ict_id', $user['schoolid'])->count();
                                     @endphp
                                     <div class="data">
-                                        {{-- <div class="amount">{{ $student->count() }}</div> --}}
+                                        <div class="amount">{{ $student }}</div>
                                     </div>
                                     <div class="data">
                                         <h6 class="sub-title">Teachers</h6>
                                         <div class="data-group">
-                                            {{-- <div class="amount">{{ $teacher->count() }}</div> --}}
+                                            <div class="amount">{{ $teacher }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -136,12 +140,13 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                     </div>
                     <div class="col-sm-5">
                         <div class="card h-100">
                             <div class="card-inner pb-1" style="min-height: 50px">
                                 <center>
-                                    <img src="/deped seal.webp" alt="" height="130">
+                                    <img src="/{{$schools->sc_logo}}" alt="" height="130">
                                     <hr>
                                     <h5 style="letter-spacing: 2px;">SCHOOL YEAR : <b>2023-2024</b></h5>
                                 </center>

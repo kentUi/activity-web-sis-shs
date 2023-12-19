@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Teachers;
@@ -22,7 +23,6 @@ Route::get('/register', function () {
 Route::get('/user', function () {
     return view('layout.type');
 });
-
 
 Route::get('/user', function () {
     return view('layout.type');
@@ -81,6 +81,10 @@ Route::get('/generate/138', function(){
 });
 
 Route::get('/strands', [Strands::class, 'list']);
+Route::get('/strand/register', [Strands::class, 'registartion']);
+Route::get('/strand/details/{id}', [Strands::class, 'details']);
+Route::post('/strand/save', [Strands::class, 'register'])->name('strand.register');
+Route::post('/strand/update', [Strands::class, 'update'])->name('strand.update');
 
 // Subject Controller
 Route::get('/subjects', [Subjects::class, 'list']);
@@ -107,3 +111,54 @@ Route::post('import/excel', [ExcelImportController::class, 'import'])->name('imp
 
 // Print Form
 Route::get('/print/form9/{id}', [Printing::class, 'form9']);
+
+use App\Models\Schools;
+use App\Models\User;
+// Administrator V.1
+Route::get('/admin/ict', function(Request $request){
+    $schools = Schools::get();
+    return view('pages.admin.ict')->with(['schools' => $schools]);
+});
+
+Route::get('/admin/schools', function(Request $request){
+    $schools = Schools::get();
+
+    if(isset($_GET['id'])){
+        $users = User::where('user_schoolid', $_GET['id'])->get();
+    }else{
+        $users = [];
+    }
+   
+    return view('pages.admin.schools')->with(['schools' => $schools, 'users' => $users]);
+});
+
+Route::post('/admin/schools-register', function(Request $request){
+    if ($_FILES["inp_logo"]["error"] == 0) {
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . uniqid() . basename($_FILES["inp_logo"]["name"]);
+        if (file_exists($targetFile)) {
+            echo "Sorry, the file already exists.";
+        } else {
+            if (move_uploaded_file($_FILES["inp_logo"]["tmp_name"], $targetFile)) {
+                $data = [
+                    'sc_id' => $request->input('inp_id'),
+                    'sc_name' => $request->input('inp_name'),
+                    'sc_address' => $request->input('inp_address'),
+                    'sc_region' => $request->input('inp_region'),
+                    'sc_principal' => $request->input('inp_principal'),
+                    'sc_pr_rank' => $request->input('inp_rank'),
+                    'sc_logo' => $targetFile,
+                ];
+
+                Schools::create($data);
+
+                return redirect('/admin/schools?register&s');
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    } else {
+        echo "Error: " . $_FILES["file"]["error"];
+    }
+    
+})->name('register.school');

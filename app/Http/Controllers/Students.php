@@ -17,7 +17,7 @@ class Students extends Controller
     {
 
         $user = session("info");
-        $id = $user['id'];
+        $id = $user['schoolid'];
         $students = new Student;
         $stud = $students::where('student_ict_id', $id)->orderBy('student_lname', 'ASC')->get();
 
@@ -47,11 +47,13 @@ class Students extends Controller
 
     public static function details($id)
     {
+        $user = session("info");
+
         $student = new Student;
         $details = $student::where('student_id', $id)->first();
 
         $section = new Section;
-        $response = $section::orderBy('sec_name', 'ASC')->get();
+        $response = $section::where('sec_ict_id', $user['schoolid'])->orderBy('sec_name', 'ASC')->get();
         $sec_name = $section::where('sec_id', $details->student_secid)->first();
         return view('pages.students.edit')->with(['response' => $response, 'details' => $details, 'section_name' => $sec_name]);
     }
@@ -66,7 +68,7 @@ class Students extends Controller
         $user_info = session('info');
 
         $data = [
-            'student_ict_id' => $user_info['id'],
+            'student_ict_id' => $user_info['schoolid'],
             'student_secid' => $request->input('inp_section'),
             'student_lrd' => $request->input('inp_lrn'),
             'student_fname' => $request->input('inp_fname'),
@@ -83,14 +85,13 @@ class Students extends Controller
         $gen_password = substr(uniqid(mt_rand(0, 0)), 8, 15);
 
         User::create([
-            'user_linkid' => $user_info['id'],
+            'user_schoolid' => $user_info['schoolid'],
             'user_fname' => $request->inp_fname,
             'user_lname' => $request->inp_lname,
             'user_mobile' => $request->inp_mobile,
             'email' => $request->inp_email,
             'password' => Hash::make($gen_password),
-            'user_type' => 'student',
-            'user_schoolid' => 0
+            'user_type' => 'student'
         ]);
 
         $userEmail = $request->input('inp_email');

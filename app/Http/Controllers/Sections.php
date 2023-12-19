@@ -23,7 +23,7 @@ class Sections extends Controller
             'sec_name' => $request->input('inp_course'),
             'sec_description' => $request->input('inp_description'),
             'sec_schoolyear' => $request->input('inp_schoolyear'),
-            'sec_ict_id' => $user_info['id'],
+            'sec_ict_id' => $user_info['schoolid'],
         ];
 
         $section = new Section($data);
@@ -78,7 +78,7 @@ class Sections extends Controller
     public static function list()
     {
         $user = session('info');
-        $id = $user['id'];
+        $id = $user['schoolid'];
         $section = new Section;
         $response = $section::where('sec_ict_id', $id)->orderBy('sec_name', 'ASC')->get();
         return view('pages.sections.list')->with(['response' => $response]);
@@ -103,6 +103,8 @@ class Sections extends Controller
 
     public static function details($id)
     {
+        $user = session('info');
+
         $teacher = new Teacher;
 
         $student = new Student;
@@ -110,11 +112,12 @@ class Sections extends Controller
         $adviser = $teacher::join('t_assign', function ($join) {
             $join->on('ass_teacherid', '=', 'tech_id');
         })
+            ->where('sec_ict_id', $user['schoolid'])
             ->where('ass_secid', $id)
             ->orderBy('tech_lname', 'ASC')
             ->first();
 
-        $teachers = $teacher::orderBy('tech_lname', 'ASC')->get();
+        $teachers = $teacher::where('tech_ict_id', $user['schoolid'])->orderBy('tech_lname', 'ASC')->get();
         $students_count = $student::where('student_secid', $id)->count();
         $students = $student::where('student_secid', $id)->orderBy('student_lname', 'ASC')->get();
 
@@ -126,8 +129,11 @@ class Sections extends Controller
 
     public static function edit($id)
     {
+        $user = session('info');
+        $sid = $user['schoolid'];
+
         $strand = new Strand;
-        $strands = $strand::get();
+        $strands = $strand::where('of_schoolid', $sid)->get();
 
         $section = Section::where('sec_id', $id)->first();
         $stand_selected = Strand::where('of_id', $section->sec_strand)->first();

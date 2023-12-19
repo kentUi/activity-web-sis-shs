@@ -19,7 +19,7 @@ class Teachers extends Controller
     public static function list()
     {
         $user = session('info');
-        $id = $user['id'];
+        $id = $user['schoolid'];
         $teachers = new Teacher;
         $response = $teachers::where('tech_ict_id', $id)->orderBy('tech_lname', 'ASC')->get();
 
@@ -65,7 +65,7 @@ class Teachers extends Controller
         $user_info = session('info');
 
         $data = [
-            'tech_ict_id' => $user_info['id'],
+            'tech_ict_id' => $user_info['schoolid'],
             'tech_fname' => $request->inp_fname,
             'tech_mname' => $request->inp_mname,
             'tech_lname' => $request->inp_lname,
@@ -81,14 +81,13 @@ class Teachers extends Controller
         $gen_password = substr(uniqid(mt_rand(0, 0)), 8, 15);
 
         User::create([
-            'user_linkid' => $user_info['id'],
+            'user_schoolid' => $user_info['schoolid'],
             'user_fname' => $request->inp_fname,
             'user_lname' => $request->inp_lname,
             'user_mobile' => $request->inp_mobile,
             'email' => $request->inp_email,
             'password' => Hash::make($gen_password),
-            'user_type' => 'teacher',
-            'user_schoolid' => 0
+            'user_type' => 'teacher'
         ]);
 
         $userEmail = $request->input('inp_email');
@@ -155,7 +154,7 @@ class Teachers extends Controller
 
     public static function attendance($id)
     {
-        return view('pages.teachers.attendance');
+        return view('pages.teachers.attendance')->with(['id' => $id]);
         // $student = new Student;
         // $students = $student::where('student_secid', $sec)->orderBy('student_lname', 'ASC')->get();
 

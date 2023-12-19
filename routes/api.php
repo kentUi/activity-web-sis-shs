@@ -47,8 +47,10 @@ Route::post('/upload/grades', function (Request $request) {
 
 Route::post('/assign', function (Request $request) {
 
+
     $id = $request->input('section');
     $subj_id = $request->input('subject');
+    $sid = $request->input('school');
     $teacher = new Teacher;
 
     $adviser = $teacher::join('t_assign', function ($join) {
@@ -58,7 +60,7 @@ Route::post('/assign', function (Request $request) {
         ->orderBy('tech_lname', 'ASC')
         ->first();
 
-    $teachers = $teacher::orderBy('tech_lname', 'ASC')->get();
+    $teachers = $teacher::where('tech_ict_id', $sid)->orderBy('tech_lname', 'ASC')->get();
 
     $strand = new Section;
     $strands = $strand::where('sec_id', $id)->join('t_strands', 'of_id', 'sec_strand')->get();
@@ -80,46 +82,46 @@ Route::post('/delete', function (Request $request) {
     $id = $request->input('push_id');
     $type = $request->input('push_type');
 
-    if( $type == 'student') {
+    if ($type == 'student') {
         Student::where('student_id', $id)->delete();
         return '/students';
-    }elseif( $type == 'teacher') {
+    } elseif ($type == 'teacher') {
         Teacher::where('tech_id', $id)->delete();
         return '/teachers';
-    }elseif( $type == 'section') {
+    } elseif ($type == 'section') {
         Section::where('sec_id', $id)->delete();
         return '/sections';
-    }elseif( $type == 'subject') {
+    } elseif ($type == 'subject') {
         Subject::where('subj_id', $id)->delete();
         return '/subjects';
     }
 });
 
 Route::post('/quarter', function (Request $request) {
-    $type = $request->input('push_type');    
+    $type = $request->input('push_type');
     $quarter = Quarter::where('q_id', 1)->first();
-    if( $type == 1) {
-        if($quarter->q_1st == 'true'){
+    if ($type == 1) {
+        if ($quarter->q_1st == 'true') {
             Quarter::where('q_id', 1)->update(['q_1st' => 'false']);
-        }else{            
+        } else {
             Quarter::where('q_id', 1)->update(['q_1st' => 'true']);
         }
-    }elseif( $type == 2) {
-        if($quarter->q_2nd == 'true'){
+    } elseif ($type == 2) {
+        if ($quarter->q_2nd == 'true') {
             Quarter::where('q_id', 1)->update(['q_2nd' => 'false']);
-        }else{            
+        } else {
             Quarter::where('q_id', 1)->update(['q_2nd' => 'true']);
         }
-    }elseif( $type == 3) {
-        if($quarter->q_3rd == 'true'){
+    } elseif ($type == 3) {
+        if ($quarter->q_3rd == 'true') {
             Quarter::where('q_id', 1)->update(['q_3rd' => 'false']);
-        }else{            
+        } else {
             Quarter::where('q_id', 1)->update(['q_3rd' => 'true']);
         }
-    }elseif( $type == 4) {
-        if($quarter->q_4th == 'true'){
+    } elseif ($type == 4) {
+        if ($quarter->q_4th == 'true') {
             Quarter::where('q_id', 1)->update(['q_4th' => 'false']);
-        }else{            
+        } else {
             Quarter::where('q_id', 1)->update(['q_4th' => 'true']);
         }
     }

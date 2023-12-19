@@ -81,10 +81,10 @@
                             <span class="nk-menu-text">Assign Teacher</span>
                         </a>
                     </li>
-                    <li class="nk-menu-heading pt-3">
+                    {{-- <li class="nk-menu-heading pt-3">
                         <h6 class="overline-title text-primary-alt">Template Settings</h6>
-                    </li>
-                    <li class="nk-menu-item">
+                    </li> --}}
+                    {{-- <li class="nk-menu-item">
                         <a href="html/lms/index.html" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-book"></em></span>
                             <span class="nk-menu-text">Form 137/138 - Template</span>
@@ -95,9 +95,9 @@
                             <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
                             <span class="nk-menu-text">School Header - Template</span>
                         </a>
-                    </li>
+                    </li> --}}
                     @elseif ($user['type'] == 'admin')
-                    <li class="nk-menu-item">
+                    {{-- <li class="nk-menu-item">
                         <a href="/strands" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
                             <span class="nk-menu-text">Manage Strands</span>
@@ -108,11 +108,17 @@
                             <span class="nk-menu-icon"><em class="icon ni ni-list-thumb-alt"></em></span>
                             <span class="nk-menu-text">Manage Subjects</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nk-menu-item">
-                        <a href="#" class="nk-menu-link">
+                        <a href="/admin/schools" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
                             <span class="nk-menu-text">Manage Schools</span>
+                        </a>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="/admin/ict" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+                            <span class="nk-menu-text">Register ICT Accounts</span>
                         </a>
                     </li>
                     @elseif ($user['type'] == 'teacher')

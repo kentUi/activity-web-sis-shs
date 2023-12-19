@@ -36,7 +36,7 @@ class ExcelImportController extends Controller
 
                 if ($validate_lrn != 0) {
                     $datax = [
-                        'student_ict_id' => $user_info['id'],
+                        'student_ict_id' => $user_info['schoolid'],
                         'student_secid' => $request->input('secid'),
                         'student_lrd' => $data[$row][0],
                         'student_fname' => $data[$row][1],
@@ -53,7 +53,7 @@ class ExcelImportController extends Controller
                     
                 }else{
                     $datax = [
-                        'student_ict_id' => $user_info['id'],
+                        'student_ict_id' => $user_info['schoolid'],
                         'student_secid' => $request->input('secid'),
                         'student_lrd' => $data[$row][0],
                         'student_fname' => $data[$row][1],
@@ -70,14 +70,13 @@ class ExcelImportController extends Controller
 
                     $gen_password = substr(uniqid(mt_rand(0, 0)), 8, 15);
                     User::create([
-                        'user_linkid' => $user_info['id'],
+                        'user_schoolid' => $user_info['schoolid'],
                         'user_fname' => $data[$row][1],
                         'user_lname' => $data[$row][2],
                         'user_mobile' => $data[$row][7],
                         'email' => $data[$row][8],
                         'password' => Hash::make($gen_password),
-                        'user_type' => 'student',
-                        'user_schoolid' => 0
+                        'user_type' => 'student'
                     ]);
                     
                     Student::create($datax); 

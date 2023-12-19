@@ -121,15 +121,18 @@
                                         <div class="form-group">
                                             <label class="form-label">Assign Section</label>
                                             <div class="form-control-wrap">
-                                                <select <?= $edit ?> name="inp_section" class="form-control"
+                                                <select <?= $edit ?> name="inp_section" id="inp_section" class="form-control"
                                                     data-placeholder="--">
-                                                    <option value="{{ $details->student_secid }}" selected>
-                                                        {{ $section_name->sec_name }}</option>
+                                                    <option value="" selected>
+                                                        No Section Assign</option>
                                                     <option value="--" disabled>--</option>
                                                     @foreach ($response as $rw)
                                                         <option value="{{ $rw->sec_id }}">{{ $rw->sec_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                <script>
+                                                    document.getElementById('inp_section').value = '{{$details->student_secid}}';
+                                                </script>
                                             </div>
                                         </div>
                                     </div>

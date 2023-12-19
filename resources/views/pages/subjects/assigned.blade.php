@@ -16,12 +16,14 @@
                         <div class="card-inner">
                             @if (isset($_GET['s']))
                                 @php
-                                $section = session('section');
-                                $subject = session('subject');
-                                $teacher = session('teacher');
+                                    $section = session('section');
+                                    $subject = session('subject');
+                                    $teacher = session('teacher');
                                 @endphp
                                 <div class="alert alert-success" style="width: 100%;">
-                                    <b><em class="icon ni ni-check"></em> {{ $subject->subj_title }}</b> has been assigned to <b>{{ $teacher->tech_lname }}, {{ $teacher->tech_fname }}</b> in section <b>{{ $section->sec_name }}</b>
+                                    <b><em class="icon ni ni-check"></em> {{ $subject->subj_title }}</b> has been assigned
+                                    to <b>{{ $teacher->tech_lname }}, {{ $teacher->tech_fname }}</b> in section
+                                    <b>{{ $section->sec_name }}</b>
                                 </div>
                                 <hr>
                             @endif
@@ -34,8 +36,11 @@
                                         <th>Teacher</th>
                                         <th width="50">Status</th>
                                     </tr>
-                                </thead> 
+                                </thead>
                                 <tbody>
+                                    @php
+                                        $user = session('info');
+                                    @endphp
                                     @foreach ($response as $rw)
                                         <tr>
                                             <td>{{ $rw->sec_name }}</td>
@@ -54,7 +59,7 @@
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li>
                                                                         <a href="#"
-                                                                            onclick="assign({{ $rw->sec_id }}, {{ $rw->subj_id }})"
+                                                                            onclick="assign({{ $rw->sec_id }}, {{ $rw->subj_id }}, {{$user['schoolid']}})"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#assign-teacher">
                                                                             <em class="icon ni ni-edit"></em>
@@ -94,14 +99,15 @@
         </div>
     </div>
     <script>
-        function assign(id, sid) {
+        function assign(id, sid, school) {
             var avg = 0;
             $.ajax({
                 url: '/api/assign',
                 type: 'POST',
                 data: {
                     section: id,
-                    subject: sid
+                    subject: sid,
+                    school: school
                 },
                 success: function(data) {
                     $('#assgin_teacher').html(data)

@@ -3,6 +3,7 @@
 @php
     $user = session('info');
 @endphp
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +79,7 @@
     </style>
 </head>
 
-<body>
+<body onload="window.print()">
 
     <div class="container">
         @php
@@ -167,32 +168,35 @@
                 </tbody>
             </table>
         </div>
+
+        @php
+            $info = DB::table('t_students')
+                ->where('student_id', $id)
+                ->first();
+
+            $strand = DB::table('t_sections')
+                ->join('t_strands', 't_strands.of_id', 't_sections.sec_strand')
+                ->where('sec_id', $info->student_secid)
+                ->first();
+
+            $school = DB::table('t_schools')->where('sc_id', $info->student_ict_id)->get();
+        @endphp
         <div class="column" style="text-align: left; font-size: 14px;">
             <small>DepEd SCHOOL FORM 9</small>
             <center>
                 <img src="/deped seal.webp" height="75" style="position: absolute; left: 585px">
-                <img src="/deped seal.webp" height="75" style="position: absolute; right: 40px">
+                <img src="/{{$school[0]->sc_logo}}" height="75" style="position: absolute; right: 40px">
                 <p>
                     Republic of the Philippines <br>
                     <span style="font-size: 16px; font-style: bold;">Department of Education</span> <br>
-                    Region X <br>
+                    {{$school[0]->sc_region}} <br>
                     DIVISION OF CAGAYAN DE ORO CITY
                     <br><br>
-                    <b>PUERTO NATIONAL HIGH SCHOOL</b> <br>
-                    Puerto, Cagayan De Oro City <br>
-                    School ID: 315402 <br> <b>SENIOR HIGH SCHOOL</b>
+                    <b>{{$school[0]->sc_name}}</b> <br>
+                    {{$school[0]->sc_address}} <br>
+                    School ID: {{$school[0]->sc_id}} <br> <b>SENIOR HIGH SCHOOL</b>
                 </p>
             </center>
-            @php
-                $info = DB::table('t_students')
-                    ->where('student_id', $id)
-                    ->first();
-
-                $strand = DB::table('t_sections')
-                    ->join('t_strands', 't_strands.of_id', 't_sections.sec_strand')
-                    ->where('sec_id', $info->student_secid)
-                    ->first();
-            @endphp
             <table style="margin: 0px; padding: 0px; font-size: 12px;">
                 <tbody>
                     <tr>
@@ -219,10 +223,10 @@
                     </tr>
                     <tr>
                         <td width="115" colspan="2" style="border: none;">Grade / Section: </td>
-                        <td colspan="2"><b>{{$strand->sec_grade}} - {{$strand->of_code}}</b></td>
+                        <td colspan="2"><b>{{ $strand->sec_grade }} - {{ $strand->of_code }}</b></td>
                         <td width="95" style="border: none;">School Year:</td>
                         <td colspan="2">
-                            <center><b>{{$strand->sec_schoolyear}}</b></center>
+                            <center><b>{{ $strand->sec_schoolyear }}</b></center>
                         </td>
                     </tr>
                 </tbody>
@@ -246,12 +250,12 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <center><b>ROEL R. LAMBERTE</b></center>
+                                    <center><b>{{$school[0]->sc_principal}}</b></center>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="border: none; padding-top: 0px;">
-                                    <center>Secondary School Principal I</center>
+                                    <center>{{$school[0]->sc_pr_rank}}</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -301,12 +305,12 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <center><b>ROEL R. LAMBERTE</b></center>
+                                    <center><b>{{$school[0]->sc_principal}}</b></center>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="border: none; padding-top: 0px;">
-                                    <center>Principal I</center>
+                                    <center>{{$school[0]->sc_pr_rank}}</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -622,7 +626,7 @@
                                 </th>
                                 <th
                                     style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; padding: 5px;">
-                                    5
+                                    3
                                 </th>
                                 <th
                                     style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; padding: 5px;">
@@ -668,24 +672,24 @@
                     <th width="200" style="padding: 0px; background-color: #fff; text-align: center;">
                         <table class="nested-table" style="margin: 0; padding: 0;">
                             <tr>
-                                <td style="padding: 0px; ">
+                                <td style="padding: 0px; padding-top: 13px;">
                                     <table class="nested-table" style="margin: 0; padding: 0;">
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.0_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.0_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.0_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.0_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -697,19 +701,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.1_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.1_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.1_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_1.1_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -758,19 +762,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.0_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.0_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.0_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.0_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -782,19 +786,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.1_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.1_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.1_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_2.1_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -832,19 +836,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_3.0_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_3.0_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_3.0_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_3.0_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -895,19 +899,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.0_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.0_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.0_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.0_Q4"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -919,19 +923,19 @@
                                         <tr>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-left: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.1_Q1"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.1_Q2"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.1_Q3"></span>
                                             </td>
                                             <td
                                                 style="text-align: center; border: 1px solid #202020; background-color: #fff; border-right: none; border-bottom: none; border-top: none;  padding: 5px;">
-                                                x
+                                                <span id="raw_4.1_Q4">x</span>
                                             </td>
                                         </tr>
                                     </table>
@@ -941,6 +945,28 @@
                     </th>
                 </tr>
             </table>
+            @php
+
+                $data_values = ['1.0', '1.1', '2.0', '2.1', '3.0', '4.0', '4.1'];
+                $data_quarter = ['Q1', 'Q2', 'Q3', 'Q4'];
+
+            @endphp
+            @foreach ($data_values as $value)
+                @foreach ($data_quarter as $quarter)
+                    @php
+                        $result_count = DB::table('t_values')
+                            ->where('val_studentid', $id)
+                            ->where('val_quarter', $quarter)
+                            ->where('val_type', $value)
+                            ->first();
+                        $count_result = empty($result_count->val_result) ? 'N/a' : $result_count->val_result;
+                    @endphp
+                    <script>
+                        document.getElementById('raw_{{ $value }}_{{ $quarter }}').innerHTML = '{{ $count_result }}';
+                    </script>
+                @endforeach
+            @endforeach
+
             <table style="border: none;">
                 <tr>
                     <th colspan="4" style="border: none;">Observed Values</th>
