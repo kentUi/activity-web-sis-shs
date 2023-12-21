@@ -44,6 +44,12 @@
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li>
+                                                                <a target="_blank" href="/generate/137/{{ $rw->student_id }}">
+                                                                    <em class="icon ni ni-eye"></em>
+                                                                    <span>Generate Form 137</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
                                                                 <a href="/students/details/{{ $rw->student_id }}">
                                                                     <em class="icon ni ni-eye"></em>
                                                                     <span>View Details</span>

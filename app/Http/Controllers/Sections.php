@@ -112,7 +112,7 @@ class Sections extends Controller
         $adviser = $teacher::join('t_assign', function ($join) {
             $join->on('ass_teacherid', '=', 'tech_id');
         })
-            ->where('sec_ict_id', $user['schoolid'])
+            // ->where('sec_ict_id', $user['schoolid'])
             ->where('ass_secid', $id)
             ->orderBy('tech_lname', 'ASC')
             ->first();

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 @php
+    use App\Models\Subject;
+    use App\Models\Section;
+    use App\Models\Student;
+    use App\Models\Teacher;
+    use App\Models\Assigned;
+    use App\Models\Schools;
     $user = session('info');
 @endphp
 
@@ -179,22 +185,24 @@
                 ->where('sec_id', $info->student_secid)
                 ->first();
 
-            $school = DB::table('t_schools')->where('sc_id', $info->student_ict_id)->get();
+            $school = DB::table('t_schools')
+                ->where('sc_id', $info->student_ict_id)
+                ->get();
         @endphp
         <div class="column" style="text-align: left; font-size: 14px;">
             <small>DepEd SCHOOL FORM 9</small>
             <center>
                 <img src="/deped seal.webp" height="75" style="position: absolute; left: 585px">
-                <img src="/{{$school[0]->sc_logo}}" height="75" style="position: absolute; right: 40px">
+                <img src="/{{ $school[0]->sc_logo }}" height="75" style="position: absolute; right: 40px">
                 <p>
                     Republic of the Philippines <br>
                     <span style="font-size: 16px; font-style: bold;">Department of Education</span> <br>
-                    {{$school[0]->sc_region}} <br>
+                    {{ $school[0]->sc_region }} <br>
                     DIVISION OF CAGAYAN DE ORO CITY
                     <br><br>
-                    <b>{{$school[0]->sc_name}}</b> <br>
-                    {{$school[0]->sc_address}} <br>
-                    School ID: {{$school[0]->sc_id}} <br> <b>SENIOR HIGH SCHOOL</b>
+                    <b>{{ $school[0]->sc_name }}</b> <br>
+                    {{ $school[0]->sc_address }} <br>
+                    School ID: {{ $school[0]->sc_id }} <br> <b>SENIOR HIGH SCHOOL</b>
                 </p>
             </center>
             <table style="margin: 0px; padding: 0px; font-size: 12px;">
@@ -250,12 +258,12 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <center><b>{{$school[0]->sc_principal}}</b></center>
+                                    <center><b>{{ $school[0]->sc_principal }}</b></center>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="border: none; padding-top: 0px;">
-                                    <center>{{$school[0]->sc_pr_rank}}</center>
+                                    <center>{{ $school[0]->sc_pr_rank }}</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -305,12 +313,12 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <center><b>{{$school[0]->sc_principal}}</b></center>
+                                    <center><b>{{ $school[0]->sc_principal }}</b></center>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="border: none; padding-top: 0px;">
-                                    <center>{{$school[0]->sc_pr_rank}}</center>
+                                    <center>{{ $school[0]->sc_pr_rank }}</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -390,51 +398,131 @@
                     <th style="padding: 5px; background-color: #D0CECE; border-right: none;">Core Subjects</th>
                     <th colspan="4" style="padding: 5px; background-color: #D0CECE; border-left: none;"></th>
                 </tr>
-                <tr>
-                    <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
-                        Personal Development
-                    </td>
-                    <td style="padding: 0px;">
-                        <table class="nested-table" style="margin: 0; padding: 0;">
-                            <tr>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
-                                    1</td>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
-                                    2</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td
-                        style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
-                        97</td>
-                </tr>
+                @php
+                    $students = new Student();
+                    $stud = $students::where('student_id', $id)->first();
+
+                    $section = new Section();
+                    $sections = $section::where('sec_id', $stud->student_secid)->first();
+
+                    $subjs = new Subject();
+                    $core_response = $subjs
+                        ::where('subj_strand', $sections->sec_strand)
+                        ->where('subj_type', 'Core')
+                        ->where('subj_semester', '1')
+                        ->orderBy('subj_title', 'ASC')
+                        ->get();
+
+                    $applied_response = $subjs
+                        ::where('subj_strand', $sections->sec_strand)
+                        ->where('subj_type', 'Applied')
+                        ->where('subj_semester', '1')
+                        ->orderBy('subj_title', 'ASC')
+                        ->get();
+                @endphp
+                @foreach ($core_response as $rw)
+                    @php
+                        $grade = 0;
+                        $gradex = [];
+                        for ($i = 1; $i <= 4; $i++) {
+                            $grades = DB::table('t_grades')
+                                ->where('gd_studentid', $id)
+                                ->where('gd_subjid', $rw->subj_id)
+                                ->where('gd_secid', $sections->sec_id)
+                                ->where('gd_quarter', $i)
+                                ->first();
+
+                            if ($grades) {
+                                $gradex[$i] = $grades->gd_grade;
+                            }
+                        }
+
+                        $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1];
+                        $grade_Q2 = empty($gradex[2]) ? 0 : $gradex[2];
+                        $grade_Q3 = empty($gradex[3]) ? 0 : $gradex[3];
+                        $grade_Q4 = empty($gradex[4]) ? 0 : $gradex[4];
+
+                        if (empty($grade_Q1) || empty($grade_Q2)) {
+                            $avg = 0;
+                        } else {
+                            $avg = ($grade_Q1 + $grade_Q2) / 2;
+                        }
+                    @endphp
+                    <tr>
+                        <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
+                            {{ $rw->subj_title }}
+                        </td>
+                        <td style="padding: 0px;">
+                            <table class="nested-table" style="margin: 0; padding: 0;">
+                                <tr>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
+                                        {{ $grade_Q1 }}</td>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
+                                        {{ $grade_Q2 }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td
+                            style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
+                            {{ $avg }}</td>
+                    </tr>
+                @endforeach
                 <tr>
                     <th style="padding: 5px; background-color: #D0CECE; border-right: none;">Applied and Specialized
                         Subjects</th>
                     <th colspan="4" style="padding: 5px; background-color: #D0CECE; border-left: none;"></th>
                 </tr>
-                <tr>
-                    <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
-                        Trends, Networks, and Critical Thinking in the 21st Century
-                    </td>
-                    <td style="padding: 0px;">
-                        <table class="nested-table" style="margin: 0; padding: 0;">
-                            <tr>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
-                                    1</td>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
-                                    2</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td
-                        style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
-                        97</td>
-                </tr>
+                @foreach ($applied_response as $rw)
+                    @php
+                        $grade = 0;
+                        $gradex = [];
+                        for ($i = 1; $i <= 4; $i++) {
+                            $grades = DB::table('t_grades')
+                                ->where('gd_studentid', $id)
+                                ->where('gd_subjid', $rw->subj_id)
+                                ->where('gd_secid', $sections->sec_id)
+                                ->where('gd_quarter', $i)
+                                ->first();
+
+                            if ($grades) {
+                                $gradex[$i] = $grades->gd_grade;
+                            }
+                        }
+
+                        $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1];
+                        $grade_Q2 = empty($gradex[2]) ? 0 : $gradex[2];
+                        $grade_Q3 = empty($gradex[3]) ? 0 : $gradex[3];
+                        $grade_Q4 = empty($gradex[4]) ? 0 : $gradex[4];
+
+                        if (empty($grade_Q1) || empty($grade_Q2)) {
+                            $avg = 0;
+                        } else {
+                            $avg = ($grade_Q1 + $grade_Q2) / 2 ;
+                        }
+                    @endphp
+                    <tr>
+                        <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
+                            {{ $rw->subj_title }}
+                        </td>
+                        <td style="padding: 0px;">
+                            <table class="nested-table" style="margin: 0; padding: 0;">
+                                <tr>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
+                                        {{ $grade_Q1 }}</td>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
+                                        {{ $grade_Q2 }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td
+                            style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
+                            {{ $avg }}</td>
+                    </tr>
+                @endforeach
                 <tr>
                     <th colspan="2" style="padding: 5px; background-color: #fff; border: none; text-align: right;">
                         General Average for the Semester : </th>
@@ -509,51 +597,124 @@
                     <th style="padding: 5px; background-color: #D0CECE; border-right: none;">Core Subjects</th>
                     <th colspan="4" style="padding: 5px; background-color: #D0CECE; border-left: none;"></th>
                 </tr>
-                <tr>
-                    <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
-                        Personal Development
-                    </td>
-                    <td style="padding: 0px;">
-                        <table class="nested-table" style="margin: 0; padding: 0;">
-                            <tr>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
-                                    1</td>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
-                                    2</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td
-                        style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
-                        97</td>
-                </tr>
+                @php
+                    $core_response_2nd = $subjs
+                        ::where('subj_strand', $sections->sec_strand)
+                        ->where('subj_type', 'Core')
+                        ->where('subj_semester', '2')
+                        ->orderBy('subj_title', 'ASC')
+                        ->get();
+
+                    $applied_response_2nd = $subjs
+                        ::where('subj_strand', $sections->sec_strand)
+                        ->where('subj_type', 'Applied')
+                        ->where('subj_semester', '2')
+                        ->orderBy('subj_title', 'ASC')
+                        ->get();
+                @endphp
+                @foreach ($core_response_2nd as $rw)
+                    @php
+                        $grade = 0;
+                        $gradex = [];
+                        for ($i = 1; $i <= 4; $i++) {
+                            $grades = DB::table('t_grades')
+                                ->where('gd_studentid', $id)
+                                ->where('gd_subjid', $rw->subj_id)
+                                ->where('gd_secid', $sections->sec_id)
+                                ->where('gd_quarter', $i)
+                                ->first();
+
+                            if ($grades) {
+                                $gradex[$i] = $grades->gd_grade;
+                            }
+                        }
+
+                        $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1];
+                        $grade_Q2 = empty($gradex[2]) ? 0 : $gradex[2];
+                        $grade_Q3 = empty($gradex[3]) ? 0 : $gradex[3];
+                        $grade_Q4 = empty($gradex[4]) ? 0 : $gradex[4];
+
+                        if (empty($grade_Q3) || empty($grade_Q4)) {
+                            $avg = 0;
+                        } else {
+                            $avg = ($grade_Q3 + $grade_Q4) / 2;
+                        }
+                    @endphp
+                    <tr>
+                        <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
+                            {{ $rw->subj_title }}
+                        </td>
+                        <td style="padding: 0px;">
+                            <table class="nested-table" style="margin: 0; padding: 0;">
+                                <tr>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
+                                        {{ $grade_Q3 }}</td>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
+                                        {{ $grade_Q4 }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td
+                            style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
+                            {{ $avg }}</td>
+                    </tr>
+                @endforeach
                 <tr>
                     <th style="padding: 5px; background-color: #D0CECE; border-right: none;">Applied and Specialized
                         Subjects</th>
                     <th colspan="4" style="padding: 5px; background-color: #D0CECE; border-left: none;"></th>
                 </tr>
-                <tr>
-                    <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
-                        Trends, Networks, and Critical Thinking in the 21st Century
-                    </td>
-                    <td style="padding: 0px;">
-                        <table class="nested-table" style="margin: 0; padding: 0;">
-                            <tr>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
-                                    3</td>
-                                <td
-                                    style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
-                                    4</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td
-                        style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
-                        97</td>
-                </tr>
+                @foreach ($applied_response_2nd as $rw)
+                    @php
+                        $grade = 0;
+                        $gradex = [];
+                        for ($i = 1; $i <= 4; $i++) {
+                            $grades = DB::table('t_grades')
+                                ->where('gd_studentid', $id)
+                                ->where('gd_subjid', $rw->subj_id)
+                                ->where('gd_secid', $sections->sec_id)
+                                ->where('gd_quarter', $i)
+                                ->first();
+
+                            if ($grades) {
+                                $gradex[$i] = $grades->gd_grade;
+                            }
+                        }
+
+                        $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1];
+                        $grade_Q2 = empty($gradex[2]) ? 0 : $gradex[2];
+                        $grade_Q3 = empty($gradex[3]) ? 0 : $gradex[3];
+                        $grade_Q4 = empty($gradex[4]) ? 0 : $gradex[4];
+
+                        if (empty($grade_Q3) || empty($grade_Q4)) {
+                            $avg = 0;
+                        } else {
+                            $avg = ($grade_Q3 + $grade_Q4) / 2;
+                        }
+                    @endphp
+                    <tr>
+                        <td style="border: 1px solid #202020; padding: 5px; font-size: 11px; padding: 5px;">
+                            {{ $rw->subj_title }}
+                        </td>
+                        <td style="padding: 0px;">
+                            <table class="nested-table" style="margin: 0; padding: 0;">
+                                <tr>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-right: none; border-left: none; border-bottom: none; border-top: none; padding: 5px;">
+                                        {{ $grade_Q3 }}</td>
+                                    <td
+                                        style="text-align: center; border: 1px solid #202020; border-bottom: none; border-top: none;  border-right: none; padding: 5px;">
+                                        {{ $grade_Q4 }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td
+                            style="border: 1px solid #202020; padding: 5px; font-size: 12px; padding: 5px; text-align: center;">
+                            {{ $avg }}</td>
+                    </tr>
+                @endforeach
                 <tr>
                     <th colspan="2" style="padding: 5px; background-color: #fff; border: none; text-align: right;">
                         General Average for the Semester : </th>

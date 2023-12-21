@@ -40,6 +40,7 @@
                                 <tbody>
                                     <?php
                                         $num = 1;
+                                        $user = session('info');
                                     ?>
                                     <?php $__currentLoopData = $response; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rw): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php
@@ -76,12 +77,7 @@
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <ul class="link-list-opt no-bdr">
                                                                 
-                                                                <li>
-                                                                    <a href="/teacher/details/<?php echo e($rw->student_id); ?>">
-                                                                        <em class="icon ni ni-users"></em>
-                                                                        <span> View Grades</span>
-                                                                    </a>
-                                                                </li>
+                                                                
                                                                 <li>
                                                                     <a href="/teacher/attendance/<?php echo e($rw->student_id); ?>">
                                                                         <em class="icon ni ni-book"></em>

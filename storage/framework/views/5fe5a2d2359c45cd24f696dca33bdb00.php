@@ -23,7 +23,7 @@
                         <div class="card-inner">
                             <?php if(isset($_GET['s'])): ?>
                                 <div class="alert alert-success">
-                                    <b>Success!</b> New Subject Added.
+                                    <b>Success!</b> New IT Account Added.
                                 </div>
                             <?php endif; ?>
                             <form method="POST" action="<?php echo e(route('register')); ?>" autocomplete="off">

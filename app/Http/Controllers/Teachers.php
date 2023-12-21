@@ -33,14 +33,16 @@ class Teachers extends Controller
 
     public static function details($id)
     {
+        $user = session('info');
+
         $teachers = new Teacher;
-        $teacher = $teachers::where('tech_id', $id)->first();
+        $teacher = $teachers::where('tech_email',$user['email'])->first();
 
         $advisory = Assigned::join('t_sections', 'sec_id', 'ass_secid')
             ->where('ass_teacherid', $id)
             ->where('ass_type', 'advisory')
             ->get();
-
+ 
         $assign_subject = Assigned::join('t_subjects', 'subj_id', 'ass_subjid')
             ->join('t_sections', 'sec_id', 'ass_secid')
             ->where('ass_teacherid', $id)

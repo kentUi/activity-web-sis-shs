@@ -43,6 +43,12 @@
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li>
+                                                                <a target="_blank" href="/generate/137/<?php echo e($rw->student_id); ?>">
+                                                                    <em class="icon ni ni-eye"></em>
+                                                                    <span>Generate Form 137</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
                                                                 <a href="/students/details/<?php echo e($rw->student_id); ?>">
                                                                     <em class="icon ni ni-eye"></em>
                                                                     <span>View Details</span>

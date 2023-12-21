@@ -33,76 +33,86 @@
                     <?php if($user['type'] == 'student'): ?>
                         
                     <?php elseif($user['type'] == 'ICT'): ?>
-                    
-                    <li class="nk-menu-heading pt-3">
-                        <h6 class="overline-title text-primary-alt">Information Management</h6>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/teachers" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-network"></em></span>
-                            <span class="nk-menu-text">Manage Teachers</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/students" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-                            <span class="nk-menu-text">Manage Students</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/sections" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-property"></em></span>
-                            <span class="nk-menu-text">Manage Sections</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/subjects" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-list-thumb-alt"></em></span>
-                            <span class="nk-menu-text">Manage Subjects</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/strands" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
-                            <span class="nk-menu-text">Manage Strands</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-heading pt-3">
-                        <h6 class="overline-title text-primary-alt">Subject Teacher</h6>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/assign/teacher" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
-                            <span class="nk-menu-text">Assign Teacher</span>
-                        </a>
-                    </li>
-                    
-                    
+                        <li class="nk-menu-heading pt-3">
+                            <h6 class="overline-title text-primary-alt">Information Management</h6>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/teachers" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-network"></em></span>
+                                <span class="nk-menu-text">Manage Teachers</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/students" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+                                <span class="nk-menu-text">Manage Students</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/sections" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-property"></em></span>
+                                <span class="nk-menu-text">Manage Sections</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/subjects" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-list-thumb-alt"></em></span>
+                                <span class="nk-menu-text">Manage Subjects</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/strands" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
+                                <span class="nk-menu-text">Manage Strands</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-heading pt-3">
+                            <h6 class="overline-title text-primary-alt">Subject Teacher</h6>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/assign/teacher" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
+                                <span class="nk-menu-text">Assign Teacher</span>
+                            </a>
+                        </li>
+                        
+                        
                     <?php elseif($user['type'] == 'admin'): ?>
-                    
-                    <li class="nk-menu-item">
-                        <a href="/admin/schools" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
-                            <span class="nk-menu-text">Manage Schools</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="/admin/ict" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-                            <span class="nk-menu-text">Register ICT Accounts</span>
-                        </a>
-                    </li>
+                        
+                        <li class="nk-menu-item">
+                            <a href="/admin/schools" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
+                                <span class="nk-menu-text">Manage Schools</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/admin/ict" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+                                <span class="nk-menu-text">Register ICT Accounts</span>
+                            </a>
+                        </li>
                     <?php elseif($user['type'] == 'teacher'): ?>
-                    <li class="nk-menu-heading pt-3">
-                        <h6 class="overline-title text-primary-alt">Teacher Menu</h6>
-                    </li>
-                    
-                    <li class="nk-menu-item has-sub">
-                        <a href="/teacher/advisory" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
-                            <span class="nk-menu-text">Assigned Advisory</span>
-                        </a>
-                    </li>
+                        <?php
+                            $check_advisory = DB::table('t_teachers')
+                                ->where('tech_email', $user['email'])
+                                ->first();
+                            $check_assign = DB::table('t_assign')
+                                ->where('ass_teacherid', $check_advisory->tech_id)
+                                ->where('ass_type', 'advisory')
+                                ->count();
+                        ?>
+                        <li class="nk-menu-heading pt-3">
+                            <h6 class="overline-title text-primary-alt">Teacher Menu</h6>
+                        </li>
+                        
+                        <?php if($check_assign != 0): ?>
+                            <li class="nk-menu-item has-sub">
+                                <a href="/teacher/advisory" class="nk-menu-link">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
+                                    <span class="nk-menu-text">Assigned Advisory</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <li class="nk-menu-heading pt-3">
                         <h6 class="overline-title text-primary-alt">Settings</h6>
@@ -118,7 +128,7 @@
                             <span class="nk-menu-icon"><em class="icon ni ni-power"></em></span>
                             <span class="nk-menu-text">Sign Out</span>
                         </a>
-                    </li> 
+                    </li>
                 </ul>
             </div>
         </div>

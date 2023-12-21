@@ -40,6 +40,7 @@
                                 <tbody>
                                     @php
                                         $num = 1;
+                                        $user = session('info');
                                     @endphp
                                     @foreach ($response as $rw)
                                         @php
@@ -79,12 +80,12 @@
                                                                         <span> Generate Form 137</span>
                                                                     </a>
                                                                 </li> --}}
-                                                                <li>
+                                                                {{-- <li>
                                                                     <a href="/teacher/details/{{$rw->student_id}}">
                                                                         <em class="icon ni ni-users"></em>
                                                                         <span> View Grades</span>
                                                                     </a>
-                                                                </li>
+                                                                </li> --}}
                                                                 <li>
                                                                     <a href="/teacher/attendance/{{$rw->student_id}}">
                                                                         <em class="icon ni ni-book"></em>

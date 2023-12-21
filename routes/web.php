@@ -72,8 +72,8 @@ Route::post('/sections/assign', [Sections::class, 'assign'])->name('teacher.assi
 Route::get('/assign/teacher', [Subjects::class, 'assign']);
 Route::post('/assign/subject', [Teachers::class, 'assign_subject'])->name('assign.subject');
 
-Route::get('/generate/137', function(){
-    return view('layout.form137');
+Route::get('/generate/137/{id}', function($id){
+    return view('layout.form137')->with(['id' => $id]);
 });
 
 Route::get('/generate/138', function(){

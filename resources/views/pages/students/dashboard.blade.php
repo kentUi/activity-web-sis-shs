@@ -93,7 +93,7 @@
                                         <div class="nk-tb-col tb-col-md text-center"><span class="text-dark">Final
                                                 Grade</span></div>
                                     </div>
-
+ 
                                     @foreach ($response as $rw)
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col">
