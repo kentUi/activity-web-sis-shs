@@ -36,17 +36,24 @@ class Teachers extends Controller
         $user = session('info');
 
         $teachers = new Teacher;
-        $teacher = $teachers::where('tech_email',$user['email'])->first();
+        $teacher = $teachers::where('tech_id', $id)->first();
 
         $advisory = Assigned::join('t_sections', 'sec_id', 'ass_secid')
             ->where('ass_teacherid', $id)
-            ->where('ass_type', 'advisory')
+            ->where('ass_type', 'advisory') 
             ->get();
  
+        // $assign_subject = Assigned::join('t_subjects', 'subj_id', 'ass_subjid')
+        //     ->join('t_sections', 'sec_id', 'ass_secid')
+        //     ->where('ass_teacherid', $id)
+        //     ->where('ass_type', 'subject')
+        //     ->get();
+        
         $assign_subject = Assigned::join('t_subjects', 'subj_id', 'ass_subjid')
             ->join('t_sections', 'sec_id', 'ass_secid')
-            ->where('ass_teacherid', $id)
-            ->where('ass_type', 'subject')
+            ->where('ass_teacherid',  $id)
+            ->select('t_subjects.subj_title', 't_subjects.subj_id', 't_sections.sec_id', 't_sections.sec_name')
+            ->distinct()
             ->get();
 
         return view('pages.teachers.details')->with(['personal_info' => $teacher, 'advisory' => $advisory, 'assign_subject' => $assign_subject]);
@@ -136,7 +143,7 @@ class Teachers extends Controller
             ->join('t_sections', 'sec_id', 'ass_secid')
             ->where('ass_secid', $section)
             ->where('ass_teacherid', $teacher_id->tech_id)
-            ->select('t_subjects.subj_title', 't_subjects.subj_id', 't_sections.sec_id')
+            ->select('t_subjects.subj_title', 't_subjects.subj_id','t_subjects.subj_semester', 't_sections.sec_id')
             ->distinct()
             ->get();
 
@@ -154,9 +161,9 @@ class Teachers extends Controller
         return view('pages.teachers.grade')->with(['response' => $students, 'subjects' => $subjects]);
     }
 
-    public static function attendance($id)
+    public static function attendance($id, $secid)
     {
-        return view('pages.teachers.attendance')->with(['id' => $id]);
+        return view('pages.teachers.attendance')->with(['id' => $id, 'secid' => $secid]);
         // $student = new Student;
         // $students = $student::where('student_secid', $sec)->orderBy('student_lname', 'ASC')->get();
 
@@ -310,12 +317,16 @@ class Teachers extends Controller
     public function advisory(Request $request)
     {
         $user = session('info');
-        $teacher_fk = $user['email'];
+
+        $teacher_id = Teacher::where('tech_email', $user['email'])->first();
+
         $section = new Assigned();
         $response = $section
             ::join('t_sections', 'sec_id', 'ass_secid')
             ->join('t_teachers', 'tech_id', 'ass_teacherid')
-            ->where('tech_email', $teacher_fk)
+            ->where('ass_teacherid', $teacher_id->tech_id)
+            ->where('tech_ict_id',  $user['schoolid'])
+            ->where('ass_type',  'advisory')
             ->select('sec_name', 'sec_id', 'sec_grade', 'sec_schoolyear')
             ->distinct()
             ->orderBy('sec_name', 'DESC')
@@ -332,5 +343,30 @@ class Teachers extends Controller
         $sec_name = Section::where('sec_id', $sec)->first();
 
         return view('pages.teachers.advisorylist')->with(['response' => $students, 'sec_name' => $sec_name]);
+    }
+
+    public static function reset_password(Request $request){
+
+        $gen_password = substr(uniqid(mt_rand(0, 0)), 8, 15);
+
+        $password = Hash::make($gen_password);
+
+        $userEmail = $request->input('inp_email');
+        $id = $request->input('inp_id');
+
+        $data_email = [
+            'name' => $request->inp_name,
+            'email' => $userEmail,
+            'password' => $gen_password
+        ];
+
+        Mail::send('layout.reset-password', ["data" => $data_email], function ($message) use ($userEmail) {
+            $message->to($userEmail)->subject('[Reset Password] Your account has been successfully reset.');
+        });
+
+        User::where('email', $userEmail)->update(['password' => $password ]);
+
+        return redirect('/teacher/details/' . $id . '?settings&s');
+
     }
 }

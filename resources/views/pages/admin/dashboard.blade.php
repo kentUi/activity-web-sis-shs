@@ -49,13 +49,8 @@
                             <div class="card-inner pb-1" style="min-height: 50px">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <a href="/teacher/students/" class="d-flex align-items-center">
-                                        <div class="user-avatar sq bg-primary">
-                                            <span style="text-transform: uppercase;">
-                                                <em class="ni ni-users"></em>
-                                            </span>
-                                        </div>
-                                        <div class="ms-3">
-                                            No. of Registered Accounts
+                                        <div class="ms-3 text-dark" style="font-size: 18px">
+                                            <b> No. of Registered Accounts</b>
                                         </div>
                                     </a>
                                 </div>
@@ -71,7 +66,7 @@
                                 <center>
                                     <img src="/deped seal.webp" alt="" height="130">
                                     <hr>
-                                    <h5 style="letter-spacing: 2px;">SCHOOL YEAR : <b>2023-2024</b></h5>
+                                    <h5 style="letter-spacing: 2px;"><b>Department of Education</b></h5>
                                 </center>
                                 <br>
                             </div>

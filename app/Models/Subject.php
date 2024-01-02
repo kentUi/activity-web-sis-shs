@@ -15,6 +15,8 @@ class Subject extends Model
         'subj_schoolid',
         'subj_description',
         'subj_strand',
-        'subj_gradelevel'
+        'subj_gradelevel',
+        'subj_type',
+        'subj_semester'
     ];
 }

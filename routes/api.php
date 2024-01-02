@@ -51,12 +51,14 @@ Route::post('/assign', function (Request $request) {
     $id = $request->input('section');
     $subj_id = $request->input('subject');
     $sid = $request->input('school');
+    $sem = $request->input('semester');
     $teacher = new Teacher;
 
     $adviser = $teacher::join('t_assign', function ($join) {
         $join->on('ass_teacherid', '=', 'tech_id');
     })
         ->where('ass_secid', $id)
+        ->where('ass_type', 'advisory')
         ->orderBy('tech_lname', 'ASC')
         ->first();
 
@@ -75,7 +77,7 @@ Route::post('/assign', function (Request $request) {
         ->orderBy('tech_lname', 'ASC')
         ->first();
 
-    return view('pages.subjects.modal.index')->with(['strands' => $strands, 'teachers' => $teachers, 'adviser' => $adviser, 'subject' => $subject, 'subject_teacher' => $sub_teacher]);
+    return view('pages.subjects.modal.index')->with(['strands' => $strands, 'teachers' => $teachers, 'adviser' => $adviser, 'subject' => $subject, 'subject_teacher' => $sub_teacher, 'semester' => $sem]);
 });
 
 Route::post('/delete', function (Request $request) {
@@ -179,4 +181,11 @@ Route::post('/upload/values', function (Request $request) {
         Values::where($find)->update($data);
         echo 'updated';
     }
+});
+
+Route::post('section', function (Request $request) {
+    
+    Student::where('student_id', $request->id)->update(['student_secid' => $request->section]);
+    echo $request->id . "<br>";
+    echo $request->section;
 });

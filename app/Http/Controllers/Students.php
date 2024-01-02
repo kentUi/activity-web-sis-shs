@@ -40,8 +40,9 @@ class Students extends Controller
 
     public static function registration()
     {
+        $user = session("info");
         $section = new Section;
-        $response = $section::orderBy('sec_name', 'ASC')->get();
+        $response = $section::where('sec_ict_id', $user['schoolid'])->orderBy('sec_name', 'ASC')->get();
         return view('pages.students.registration')->with(['response' => $response]);
     }
 

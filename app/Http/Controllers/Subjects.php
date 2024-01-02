@@ -18,6 +18,8 @@ class Subjects extends Controller
             'subj_strand' => $request->input('inp_strand'),
             'subj_gradelevel' => $request->input('inp_gradelevel'),
             'subj_title' => $request->input('inp_course'),
+            'subj_type' => $request->input('inp_type'),
+            'subj_semester' => $request->input('inp_semester'),
             'subj_description' => $request->input('inp_description')
         ];
 
@@ -33,12 +35,14 @@ class Subjects extends Controller
             'subj_strand' => $request->input('inp_strand'),
             'subj_gradelevel' => $request->input('inp_gradelevel'),
             'subj_title' => $request->input('inp_course'),
-            'subj_description' => $request->input('inp_description')
+            'subj_description' => $request->input('inp_description'),
+            'subj_type' => $request->input('inp_type'),
+            'subj_semester' => $request->input('inp_semester'),
         ];
 
         Subject::where('subj_id', $request->input('id'))->update($data);
 
-        return redirect('/subject/view/'.$request->input('id').'?s');
+        return redirect('/subject/view/' . $request->input('id') . '?s');
     }
 
     public static function assign()
@@ -47,9 +51,10 @@ class Subjects extends Controller
         $sid = $user['schoolid'];
 
         $subjects = new Subject;
-        $response = $subjects::where('subj_schoolid', $sid)
+        $response = $subjects::where('sec_ict_id', $sid)                    
+            ->where('subj_schoolid', $user['schoolid'])
             ->join('t_strands', 'of_id', 'subj_strand')
-            ->join('t_sections', 'sec_strand', 'subj_strand')
+            ->join('t_sections', 'sec_grade', 'subj_gradelevel')
             ->orderBy('subj_title', 'ASC')->get();
 
         return view('pages.subjects.assigned')->with(['response' => $response]);
@@ -60,7 +65,7 @@ class Subjects extends Controller
         $user = session('info');
         $sid = $user['schoolid'];
         $subjects = new Subject;
-        $response = $subjects::where('subj_schoolid',  $sid)->join('t_strands', 'of_id', 'subj_strand')
+        $response = $subjects::where('subj_schoolid', $sid)->join('t_strands', 'of_id', 'subj_strand')
             ->orderBy('subj_title', 'ASC')->get();
         return view('pages.subjects.list')->with(['response' => $response]);
     }
@@ -82,7 +87,7 @@ class Subjects extends Controller
         $sid = $user['schoolid'];
 
         $strand = new Strand;
-        $strands = $strand::where('of_schoolid', $sid )->get();
+        $strands = $strand::where('of_schoolid', $sid)->get();
 
         $subjects = Subject::where('subj_id', $id)->first();
         $strand_selected = Strand::where('of_id', $subjects->subj_strand)->first();

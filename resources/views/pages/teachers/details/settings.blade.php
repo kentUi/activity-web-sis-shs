@@ -13,10 +13,10 @@
     </div>
 </div>
 <div class="">
-    @if(isset($_GET['s']))
-    <div class="alert alert-success">
-        <b>Success!</b> New password has sent to email address. 
-    </div>
+    @if (isset($_GET['s']))
+        <div class="alert alert-success">
+            <b>Success!</b> New password has sent to email address.
+        </div>
     @endif
     <div class="card">
         <div class="card-inner-group">
@@ -26,13 +26,19 @@
                         <h6>Reset Password</h6>
                         <p>Set a unique password to protect your account.</p>
                     </div>
-                    <div class="nk-block-actions flex-shrink-sm-0">
-                        <ul class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
-                            <li class="order-md-last">
-                                <a href="#" class="btn btn-danger">Reset Password</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <form action="{{ route('reset.password') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="inp_name" value="{{ $personal_info->tech_lname }}, {{ $personal_info->tech_fname }}">
+                        <input type="hidden" name="inp_email" value="{{ $personal_info->tech_email }}">
+                        <input type="hidden" name="inp_id" value="{{ $personal_info->tech_id }}">
+                        <div class="nk-block-actions flex-shrink-sm-0">
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                                <li class="order-md-last">
+                                    <button class="btn btn-danger">Reset Password</button >
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

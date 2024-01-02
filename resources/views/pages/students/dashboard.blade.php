@@ -20,10 +20,13 @@
                                         <div class="drodown">
                                             <a href="#"
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                                data-bs-toggle="dropdown">School Year</a>
+                                                data-bs-toggle="dropdown">Options</a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><span>S.Y : 2023-2024</span></a></li>
+                                                    <li><a href="?s=1&g=11"><span>Grade 11 | 1st Semester </span></a></li>
+                                                    <li><a href="?s=2&g=11"><span>Grade 11 | 2nd Semester </span></a></li>                                                    
+                                                    <li><a href="?s=1&g=12"><span>Grade 12 | 1st Semester </span></a></li>
+                                                    <li><a href="?s=2&g=12"><span>Grade 12 | 2nd Semester </span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -51,17 +54,11 @@
                         $bnum = 0;
                     @endphp
                     <div class="col-sm-12 col-lg-12 col-xxl-12">
-                        <div class="card h-100">
-                            <div class="card-inner pb-1"
-                                style="min-height: 50px;background-image: url(&quot;{{ '/' . $cover[3] }}&quot;); 
-                                background-position:center; background-size: cover; padding: 20px;">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <a href="/teacher/students/" class="d-flex align-items-center">
-                                        <div class="user-avatar sq course-bg6.png">
-                                            <span style="text-transform: uppercase;">
-                                                <em class="ni ni-book"></em>
-                                            </span>
-                                        </div>
+                        <div class="card h-100 mb-0">
+                            <div class="card-inner pb-0 mb-0" style="min-height:  padding: 20px;">
+                                <div class="d-flex justify-content-between align-items-start mb-0">
+                                    <a href="#" class="d-flex align-items-center">
+
                                         <div class="ms-3">
                                             <b>GRADE {{ $sectionGrade }}</b> ({{ $sectionName }}) <br>
                                             <b>ADVISER : </b>
@@ -72,37 +69,50 @@
                                                 <b style="color: red"><i>No Adviser</i></b>
                                             @endif
                                             <br>
-                                           <b>SCHOOL YEAR :</b> 2023-2024
+                                            <b>SCHOOL YEAR :</b> 2023-2024
                                         </div>
 
                                     </a>
                                 </div>
                             </div>
                             <div class="px-4 pt-2 pb-2 ">
+                                <hr>
                                 <div class="nk-tb-list nk-tb-ulist">
                                     <div class="nk-tb-item nk-tb-head">
-                                        <div class="nk-tb-col"><span class="sub-text">List of Students</span></div>
-                                        <div class="nk-tb-col tb-col-md text-center"><span class="sub-text">1st
-                                                Quarter</span></div>
-                                        <div class="nk-tb-col tb-col-lg text-center"><span class="sub-text">2nd
-                                                Quarter</span></div>
-                                        <div class="nk-tb-col tb-col-lg text-center"><span class="sub-text">3rd
-                                                Quarter</span></div>
-                                        <div class="nk-tb-col tb-col-md text-center"><span class="sub-text">4th
-                                                Quarter</span></div>
-                                        <div class="nk-tb-col tb-col-md text-center"><span class="text-dark">Final
-                                                Grade</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">List of Courses</span></div>
+                                        <div class="nk-tb-col tb-col-md "><span class="">
+                                                Course Types
+                                            </span>
+                                        </div>
+                                        @if (1 == $courseSemester)
+                                            <div class="nk-tb-col tb-col-md text-center"><span class="sub-text">
+                                                    1ST
+                                                </span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-lg text-center"><span class="sub-text">
+                                                    2ND
+                                                </span>
+                                            </div>
+                                        @else
+                                            <div class="nk-tb-col tb-col-md text-center"><span class="sub-text">
+                                                    3RD
+                                                </span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-lg text-center"><span class="sub-text">
+                                                    4TH
+                                                </span>
+                                            </div>
+                                        @endif
+                                        <div class="nk-tb-col tb-col-lg text-center"><span class="sub-text">
+                                                Average
+                                            </span>
+                                        </div>
                                     </div>
- 
                                     @foreach ($response as $rw)
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col">
                                                 <a href="#">
                                                     <div class="user-card">
-                                                        <div class="user-avatar {{ $box[$num++] }}"
-                                                            style="text-transform: uppercase;">
-                                                            <span>{{ Str::substr($rw->subj_title, 0, 2) }}</span>
-                                                        </div>
                                                         <div class="user-info">
                                                             <span class="tb-lead">{{ $rw->subj_title }} <span
                                                                     class="dot dot-success d-md-none ms-1"></span></span>
@@ -126,30 +136,42 @@
                                                     }
                                                 }
 
-                                                $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1]; 
+                                                $grade_Q1 = empty($gradex[1]) ? 0 : $gradex[1];
                                                 $grade_Q2 = empty($gradex[2]) ? 0 : $gradex[2];
                                                 $grade_Q3 = empty($gradex[3]) ? 0 : $gradex[3];
                                                 $grade_Q4 = empty($gradex[4]) ? 0 : $gradex[4];
 
-                                                if(empty($grade_Q1) || empty($grade_Q2) || empty($grade_Q3) || empty($grade_Q4)){
-                                                    $avg = 0;
-                                                }else{
-                                                    $avg = ($grade_Q1 + $grade_Q2 + $grade_Q3 + $grade_Q4) / 4;
-                                                }           
-                                               
+                                                $avg = 0;
+
+                                                if (1 == $courseSemester) {                                                   
+                                                    if (!empty($grade_Q1) || !empty($grade_Q2)) {
+                                                        $avg = ($grade_Q1 + $grade_Q2) / 2;
+                                                    }
+                                                } else {
+                                                    if (!empty($grade_Q3) || !empty($grade_Q4)) {
+                                                        $avg = ($grade_Q3 + $grade_Q4) / 2;
+                                                    }
+                                                }
+
                                             @endphp
-                                            <div class="nk-tb-col tb-col-md text-center">
-                                                <b><span class="t">{{ $grade_Q1 }}</span></b>
+                                            <div class="nk-tb-col tb-col-md ">
+                                                <b><span class="t">{{ $rw->subj_type }}</span></b>
                                             </div>
-                                            <div class="nk-tb-col tb-col-lg text-center">
-                                                <b><span class="">{{ $grade_Q2 }}</span></b>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-lg text-center">
-                                                <b><span class="">{{ $grade_Q3 }}</span></b>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-md text-center">
-                                                <b><span class="">{{ $grade_Q4 }}</span></b>
-                                            </div>
+                                            @if (1 == $courseSemester)
+                                                <div class="nk-tb-col tb-col-md text-center">
+                                                    <b><span class="text-dark">{{ $grade_Q1 }}</span></b>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-lg text-center">
+                                                    <b><span class="text-dark">{{ $grade_Q2 }}</span></b>
+                                                </div>
+                                            @else
+                                                <div class="nk-tb-col tb-col-lg text-center">
+                                                    <b><span class="text-dark">{{ $grade_Q3 }}</span></b>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-md text-center">
+                                                    <b><span class="text-dark">{{ $grade_Q4 }}</span></b>
+                                                </div>
+                                            @endif
                                             <div class="nk-tb-col tb-col-md text-center">
                                                 <b><span class="text-dark">{{ $avg }}</span></b>
                                             </div>

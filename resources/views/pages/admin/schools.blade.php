@@ -118,12 +118,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <div class="form-label-group">
-                                                    <label class="form-label" for="default-01">Principal Rank <b
-                                                            class="text-danger">*</b></label>
+                                                    <label class="form-label" for="default-01">Principal Rank <small>(Optional)</small></label>
                                                 </div>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control form-control-lg"
-                                                        name="inp_rank" required id="default-01" placeholder="Write here..">
+                                                        name="inp_rank"  id="default-01" placeholder="Write here..">
                                                 </div>
                                             </div>
                                         </div>

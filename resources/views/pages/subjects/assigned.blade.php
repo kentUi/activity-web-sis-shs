@@ -33,7 +33,8 @@
                                         <th>Sections</th>
                                         <th>School Year</th>
                                         <th>Subject</th>
-                                        <th>Teacher</th>
+                                        <th>Grade Level</th>
+                                        <th>Semester</th>
                                         <th width="50">Status</th>
                                     </tr>
                                 </thead>
@@ -46,6 +47,12 @@
                                             <td>{{ $rw->sec_name }}</td>
                                             <td>{{ $rw->sec_schoolyear }}</td>
                                             <td>{{ $rw->subj_title }}</td>
+
+                                            @if ($rw->subj_semester == 1)
+                                                <td>1st Semester</td>
+                                            @else
+                                                <td>2nd Semester</td>
+                                            @endif
                                             <td>Grade {{ $rw->subj_gradelevel }}</td>
                                             <td>
                                                 <center>
@@ -59,7 +66,7 @@
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li>
                                                                         <a href="#"
-                                                                            onclick="assign({{ $rw->sec_id }}, {{ $rw->subj_id }}, {{$user['schoolid']}})"
+                                                                            onclick="assign({{ $rw->sec_id }}, {{ $rw->subj_id }}, {{ $user['schoolid'] }}, {{$rw->subj_semester}})"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#assign-teacher">
                                                                             <em class="icon ni ni-edit"></em>
@@ -99,7 +106,7 @@
         </div>
     </div>
     <script>
-        function assign(id, sid, school) {
+        function assign(id, sid, school, sem) {
             var avg = 0;
             $.ajax({
                 url: '/api/assign',
@@ -107,7 +114,8 @@
                 data: {
                     section: id,
                     subject: sid,
-                    school: school
+                    school: school,
+                    semester: sem
                 },
                 success: function(data) {
                     $('#assgin_teacher').html(data)

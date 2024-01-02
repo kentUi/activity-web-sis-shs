@@ -1,14 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    @php
+    use App\Models\Subject;
+    use App\Models\Section;
+    use App\Models\Student;
+    $user = session('info');
+@endphp
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Form - 137</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .column {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        /* Style for table cells (td) */
+        td {
+            border-bottom: 1px solid #000;
+            /* Only bottom border */
+            padding: 10px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            text-align: left;
+        }
+
+        /* Style for table header cells (th) */
+        th {
+            border: 1px solid #202020;
+            /* border-bottom: 2px solid #333; */
+            /* Header has a slightly thicker bottom border */
+            padding: 10px;
+            padding-top: 2px;
+            text-align: left;
+        }
+
+        @media print {
+            /* Apply print-specific styles here */
+
+            /* Add page breaks as needed */
+            .page-break {
+                page-break-before: always;
+            }
+        }
+
+        .nested-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .nested-table,
+        .nested-table th,
+        .nested-table td {
+            /* //border: 1px solid #ddd; */
+        }
+
+        .nested-table th,
+        .nested-table td {
+            text-align: left;
+        }
+    </style>
 </head>
 
-<body onload="windowx.print()">
+<body onload="Xwindow.print()">
     @php
         $info = DB::table('t_students')
             ->where('student_id', $id)
@@ -26,208 +103,101 @@
     <div class="" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
         <div id="form137">
             <div id="PrintGradeReportFrontPage">
-                <table style="width:100%; border-collapse: collapse;" border="0">
-                    <tr>
-                        <td style="text-align: center; width: 25%;">
-                            <img src="{{ asset('deped seal.webp') }}" height="100" />
-                        </td>
-                        <td style="text-align: center; width: 50%;">
-                            <span>Republic of the Philippines</span><br />
-                            <span>Department of Education</span><br />
-                            {{ $school[0]->sc_region }} <br>
-                            DIVISION OF CAGAYAN DE ORO CITY<br>
-                            <b>{{ $school[0]->sc_name }}</b> <br>
-                            {{ $school[0]->sc_address }} <br>
-                            School ID: {{ $school[0]->sc_id }} <br>
-                            <span style="font-size: 18px; font-weight: bold;">Learner Permanent Record for Senior High
-                                School (SF10-SHS)</span><br />
-                            <span>(Formerly form 137)</span>
-                        </td>
-                        <td style="text-align: center; width: 25%;">
-                            <img src="/{{ $school[0]->sc_logo }}" height="100" />
-                        </td>
-                    </tr>
-                </table>
-                <table style="width:100%; border-collapse: collapse; font-weight: bold; margin-top: 15px;"
+                <b style="float: right;">SF10-SHS</b>
+                <center>
+                    <img src="/deped seal.webp" height="60" style="position: absolute; left: 85px; top: 15px">
+                    <img src="/logo.png" height="50" style="position: absolute; right: 40px; top: 15px">
+
+                    <br>
+                    <p style="font-size: 16px">
+                        <span style="text-transform: uppercase;">Republic of the Philippines</span> <br>
+                        <span style="text-transform: uppercase; font-size: 16px; font-style: bold;">Department of
+                            Education</span> <br>
+                        <b style="text-transform: uppercase;">SENIOR HIGH SCHOOL STUDENT PERMANET RECORD</b>
+                    </p>
+                </center>
+                <table style="width:100%; border-collapse: collapse; font-weight: bold; margin: 0; font-size: 12px;"
                     border="0">
                     <tr>
-                        <td colspan="8" style="border: 2px solid black; text-align: center; font-weight: bold;">
+                        <td colspan="8"
+                            style="border: 1px solid #000; background-color: #D0CECE; text-align: center; font-weight: bold; padding-top: 2px">
                             LEARNER'S INFORMATION
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 15%; text-transform: capitalize;">last name</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
+                        <td width="80" colspan="-1" style="border: none;">LAST NAME:</td>
+                        <td colspan="0">
+                            <b style="text-transform: uppercase">
+                                {{ $info->student_lname }}
+                            </b>
                         </td>
-                        <td style="width: 15%; text-transform: capitalize; padding-left: 20px;">first name</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
+                        <td width="100" style="border: none;">FIRST NAME:</td>
+                        <td colspan="2">
+                            <b style="text-transform: uppercase">
+                                {{ $info->student_fname }}
+                            </b>
                         </td>
-                        <td style="width: 15%; text-transform: capitalize; text-align: right;">name ext. (jr,ii,iii)
-                        </td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
-                        </td>
-                        <td style="width: 15%; text-transform: capitalize; padding-left: 20px;">middle name</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;"</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="width: 15%; text-transform: capitalize;">learner reference number
-                            (lrn)</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
-                        </td>
-                        <td colspan="2"
-                            style="width: 15%; text-transform: capitalize; text-align: right; padding-right: 20px;">
-                            birthdate</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
-                        </td>
-                        <td style="width: 15%; text-transform: capitalize; text-align: right; padding-right: 20px;">sex
-                        </td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; text-align: center; border-bottom: 1px solid black;">
+                        <td width="100" style="border: none;">MIDDLE NAME:</td>
+                        <td colspan="4">
+                            <b style="text-transform: uppercase">
+                                {{ $info->student_mname }}
+                            </b>
                         </td>
                     </tr>
                 </table>
-                <br />
-                <table style="width: 100%; border-collapse: collapse; font-weight: bold;" border="0">
-                    <tr>
-                        <td colspan="8" style="border: 2px solid black; text-align: center; font-weight: bold;">
-                            ELIGIBILITY FOR JHS ENROLMENT
-                        </td>
-                    </tr>
-                </table>
-                <table style="border: 0px solid black; width: 100%; border-collapse: collapse; font-weight: bold;"
+                <table style="width:100%; border-collapse: collapse; font-weight: bold;  margin: 0;  font-size: 12px;"
                     border="0">
                     <tr>
-                        <td rowspan="2" style="width: 5%; text-transform: uppercase;"></td>
-                        <td style="width: 15%; text-transform: uppercase;">elementary school completer</td>
-                        <td style="width: 10%; text-transform: uppercase;"></td>
-                        <td style="width: 15%; text-transform: uppercase;">general average</td>
-                        <td style="width: 10%; text-transform: uppercase; border-bottom: 1px solid black;"></td>
-                        <td style="width: 15%; text-transform: uppercase;"></td>
-                        <td style="width: 15%; text-transform: uppercase;">citation (if any)</td>
-                        <td style="width: 15%; text-transform: uppercase; border-bottom: 1px solid black;"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase;">name of elementary school</td>
-                        <td colspan="2" style="text-transform: uppercase; border-bottom: 1px solid black;"></td>
-                        <td style="text-transform: uppercase;">school id</td>
-                        <td style="text-transform: uppercase; border-bottom: 1px solid black;"></td>
-                        <td style="text-transform: uppercase;">address of school</td>
-                        <td style="text-transform: uppercase; border-bottom: 1px solid black;"></td>
-                    </tr>
-                </table>
-                <br />
-                <table style="width: 100%; border-collapse: collapse; font-weight: bold;" border="0">
-                    <tr>
-                        <td colspan="8" style="border: 2px solid black; text-align: center; font-weight: bold;">
-                            SCHOOLASTIC RECORD
+                        <td width="20" style="border: none;">LRN:</td>
+                        <td colspan="2">
+                            <b style="text-transform: uppercase">
+                                {{ $info->student_lrd }}
+                            </b>
+                        </td>
+                        <td width="130" style="border: none; letter-spacing: -1px;">Date of Birth
+                            <small>(MM/DD/YYYY)</small>:
+                        </td>
+                        <td colspan="2">
+                            <b style="text-transform: uppercase">
+                                {{ date_format(date_create($info->student_birthdate), 'm/d/Y') }}
+                            </b>
+                        </td>
+                        <td width="20" style="border: none;">SEX:</td>
+                        <td colspan="2">
+                            <b style="text-transform: uppercase">
+                                {{ $info->student_mname }}
+                            </b>
+                        </td>
+                        <td width="160" style="border: none; letter-spacing: -1px;">Date of Admission
+                            <small>(MM/DD/YYYY)</small>:
+                        </td>
+                        <td colspan="2">
+                            <b style="text-transform: uppercase">
+                                {{ date_format(date_create($info->student_birthdate), 'm/d/Y') }}
+                            </b>
                         </td>
                     </tr>
                 </table>
-                <table style="width: 100%; border-collapse: collapse;" border="0">
+               
+                <table style="width: 100%; border-collapse: collapse; font-weight: bold; margin: 0">
                     <tr>
-                        <td style="text-transform: capitalize;">school</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">
-                            Generic National High School</td>
-                        <td style="text-transform: capitalize;">school ID</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">315402
-                        </td>
-                        <td style="text-transform: capitalize;">district</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">East
-                            II</td>
-                        <td style="text-transform: capitalize;">division</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">
-                            Division of Cagayan de Oro City</td>
-                        <td style="text-transform: capitalize;">region</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">Region
-                            X</td>
-                    </tr>
-                </table>
-                <table style="width: 100%; border-collapse: collapse;" border="0">
-                    <tr>
-                        <td style="text-transform: capitalize;">classified grade</td>
-                        <td
-                            style="width: 8%; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">
-                        </td>
-                        <td style="text-transform: capitalize;">section</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;"></td>
-                        <td style="text-transform: capitalize;">school year</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;"></td>
-                        <td style="text-transform: capitalize;">name of adviser</td>
-                        <td style="text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;"></td>
-                        <td style="text-transform: capitalize;">signature</td>
-                        <td
-                            style="width: 15%; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid black;">
-                        </td>
-                    </tr>
-                </table>
-                <table style="border: 1px solid #171717; border-collapse: collapse; margin-top: 10px;">
-                    <tr>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;" rowspan="2">Learning
-                            Area</td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;" colspan="4">Quarter
-                        </td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;" rowspan="2">Final Grade
-                        </td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;" rowspan="2">Remarks
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;">1</td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;">2</td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;">3</td>
-                        <td style="border: 1px solid; font-weight: bold; text-align: center;">4</td>
-                    </tr>
-                    @php
-                        $grades = [''];
-                    @endphp
-                    @foreach ($grades as $grade)
-                        <tr>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;"></td>
-                            <td style="border: 1px solid; font-weight: bold; text-align: center;">Passed</td>
-                        </tr>
-                    @endforeach
-                </table>
-                <table
-                    style="border: 1px solid black; width: 100%; border-collapse: collapse; font-weight: bold; margin-top: 15px;"
-                    border="1">
-                    <tr>
-                        <td style="text-transform: uppercase; text-align: center;">learning areas</td>
-                        <td style="text-transform: uppercase; text-align: center;">final rating</td>
-                        <td style="text-transform: uppercase; text-align: center;">remedial class mark</td>
-                        <td style="text-transform: uppercase; text-align: center;">recomputed final grade</td>
-                        <td style="text-transform: uppercase; text-align: center;">remarks</td>
-                    </tr>
-                </table>
-                <br />
-                <table style="width: 100%; border-collapse: collapse; font-weight: bold;" border="0">
-                    <tr>
-                        <td colspan="8" style="border: 2px solid black; text-align: center; font-weight: bold;">
-                            CERTIFICATION
+                        <td colspan="8"
+                            style="border: 1px solid #000; background-color: #D0CECE; text-align: center; font-weight: bold; padding-top: 2px">
+                            ELIGIBILITY FOR SHS ENROLMENT
                         </td>
                     </tr>
                 </table>
-                <table style="width: 100%; border-collapse: collapse;" border="0">
-                    <tr>
-                        <td colspan="8" style="border: 2px solid black; text-align: center;">
-                            I Certify that this is a true record of <u style="font-weight: bold;"></u> with LRN <u
-                                style="font-weight: bold;"></u> and that he/she is eligible for admission for Grade <u
-                                style="font-weight: bold;"></u> Name of School <u style="font-weight: bold;">Generic
-                                National High School</u> School ID <u style="font-weight: bold;">315402</u> last school
-                            year attended: <u style="font-weight: bold;"></u>
-                        </td>
-                    </tr>
+                <table
+                    style="border: 0px solid black; width: 100%; margin: 0; border-collapse: collapse; font-weight: bold;"
+                    border="0">
                 </table>
+                @include('layout.details.grade-11-1');
+                @include('layout.details.grade-11-2');
+
+                @include('layout.details.grade-12-1');
+                @include('layout.details.grade-12-2');
+                {{-- @include('layout.details.grade-11-2'); --}}
+
             </div>
         </div>
     </div>

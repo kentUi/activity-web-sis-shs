@@ -18,10 +18,24 @@
             $section = new Section();
             $sections = $section::where('sec_id', $stud->student_secid)->first();
 
+            if (isset($_GET['s'])) {
+                $sem = $_GET['s'];
+            } else {
+                $sem = 1;
+            }
+
+            if (isset($_GET['g'])) {
+                $grade_level = $_GET['g'];
+            } else {
+                $grade_level = 11;
+            }
+
             $subjs = new Subject();
             $response = $subjs
                 ::where('subj_strand', $sections->sec_strand)
-                ->orderBy('subj_title', 'ASC')
+                ->where('subj_gradelevel', $grade_level)
+                ->where('subj_semester', $sem)
+                ->orderBy('subj_type', 'ASC')
                 ->get();
 
             $teacher = new Teacher();
@@ -38,7 +52,8 @@
             'sectionid' => $stud->student_secid,
             'studentid' => $stud->student_id,
             'sectionName' => $sections->sec_name,
-            'sectionGrade' => $sections->sec_grade,
+            'sectionGrade' => $grade_level,
+            'courseSemester' => $response[0]->subj_semester,
             'adviser' => $adviser,
         ])
     @elseif ($user['type'] == 'ICT')

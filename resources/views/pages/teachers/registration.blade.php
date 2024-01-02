@@ -32,27 +32,27 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="form-label" for="full-name">First Name</label>
-                                            <input name="inp_fname" type="text" class="form-control" id="full-name"
+                                            <input required name="inp_fname" type="text" class="form-control" id="full-name"
                                                 value="" placeholder="Enter First name">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="form-label" for="display-name">Last Name</label>
-                                            <input name="inp_lname" type="text" class="form-control" id="display-name"
+                                            <input required name="inp_lname" type="text" class="form-control" id="display-name"
                                                 value="" placeholder="Enter Last name">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label" for="display-name">Middle Name</label>
+                                            <label class="form-label" for="display-name">Middle Name <small>(Optional)</small></label>
                                             <input name="inp_mname" type="text" class="form-control" id="display-name"
                                                 placeholder="Enter Middle name">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label" for="display-name">Extension Name</label>
+                                            <label class="form-label" for="display-name">Extension Name <small>(Optional)</small></label>
                                             <input name="inp_extname" type="text" class="form-control" id="display-name"
                                                 placeholder="Enter Extension name">
                                         </div>
@@ -104,7 +104,7 @@
                                         </div>
                                     </div><div class="col-md-8">
                                         <div class="form-group">
-                                            <label class="form-label" for="phone-no">Complete Address</label>
+                                            <label class="form-label" for="phone-no">Complete Address <small>(Optional)</small></label>
                                             <input name="inp_address" type="text" class="form-control"
                                                 placeholder="Enter Complete Address here..">
                                         </div>

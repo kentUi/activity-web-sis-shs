@@ -17,7 +17,7 @@
         <thead>
             <tr>
                 <th>Subject</th>
-                <th>-</th>
+                <th>Section</th>
                 <th width="50">Tools</th>
             </tr>
         </thead>
@@ -25,7 +25,7 @@
             @foreach ($advisory as $rw)
                 <tr>
                     <td>{{ $rw->subj_title }} </td>
-                    <td><small>Grade {{ $rw->sec_grade }} / {{ $rw->sec_schoolyear }}</small></td>
+                    <td>{{ $rw->sec_name }}</td>
                     <td>
                         <li>
                             <div class="drodown" style="">

@@ -100,8 +100,10 @@ class ExcelImportController extends Controller
                 // });
 
             }
+            
 
             session(['imported' => $import_data]);
+            //return  $import_data;
             return redirect('/sections/import/'. $request->input('secid') .'?s');
 
         } catch (\Exception $e) {

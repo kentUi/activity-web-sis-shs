@@ -112,7 +112,7 @@
                                 ->where('at_type', 'days')
                                 ->first();
 
-                            $count_days = empty($days_count->at_count) ? '' : $days_count->at_count;
+                            $count_days = empty($days_count->at_count) ? '0' : $days_count->at_count;
                         @endphp
                         <td style="border: 1px solid #202020; padding: 5px; text-align: center">{{ $count_days }}</td>
                     @endforeach
@@ -128,7 +128,7 @@
                                 ->where('at_type', 'present')
                                 ->first();
 
-                            $count_present = empty($present_count->at_count) ? '' : $present_count->at_count;
+                            $count_present = empty($present_count->at_count) ? '0' : $present_count->at_count;
                         @endphp
                         <td style="border: 1px solid #202020; padding: 5px; text-align: center">{{ $count_present }}
                         </td>
@@ -145,7 +145,7 @@
                                 ->where('at_type', 'absents')
                                 ->first();
 
-                            $count_absent = empty($absent_count->at_count) ? '' : $absent_count->at_count;
+                            $count_absent = empty($absent_count->at_count) ? '0' : $absent_count->at_count;
                         @endphp
                         <td style="border: 1px solid #202020; padding: 5px; text-align: center">{{ $count_absent }}</td>
                     @endforeach
@@ -408,17 +408,29 @@
                     $subjs = new Subject();
                     $core_response = $subjs
                         ::where('subj_strand', $sections->sec_strand)
+                        ->where('subj_schoolid', $user['schoolid'])
                         ->where('subj_type', 'Core')
-                        ->where('subj_semester', '1')
-                        ->orderBy('subj_title', 'ASC')
+                        ->where('subj_gradelevel', $strand->sec_grade)
+                        ->where('subj_semester', 1)
+                        ->orderBy('subj_type', 'ASC')
                         ->get();
 
                     $applied_response = $subjs
                         ::where('subj_strand', $sections->sec_strand)
-                        ->where('subj_type', 'Applied')
-                        ->where('subj_semester', '1')
+                        ->where(function ($query) {
+                            $query->where('subj_type', 'Applied')->orWhere('subj_type', 'Specialized');
+                        })
+                        ->where('subj_schoolid', $user['schoolid'])
+                        ->where('subj_gradelevel', $strand->sec_grade)
+                        ->where('subj_semester', 1)
                         ->orderBy('subj_title', 'ASC')
                         ->get();
+
+                    $general_average_1st = 0;
+                    $count_num = 0;
+
+                    $general_average_2nd = 0;
+                    $count_num_2nd = 0;
                 @endphp
                 @foreach ($core_response as $rw)
                     @php
@@ -446,6 +458,8 @@
                             $avg = 0;
                         } else {
                             $avg = ($grade_Q1 + $grade_Q2) / 2;
+                            $general_average_1st += $avg;
+                            $count_num++;
                         }
                     @endphp
                     <tr>
@@ -499,7 +513,9 @@
                         if (empty($grade_Q1) || empty($grade_Q2)) {
                             $avg = 0;
                         } else {
-                            $avg = ($grade_Q1 + $grade_Q2) / 2 ;
+                            $avg = ($grade_Q1 + $grade_Q2) / 2;
+                            $general_average_1st += $avg;
+                            $count_num++;
                         }
                     @endphp
                     <tr>
@@ -526,7 +542,13 @@
                 <tr>
                     <th colspan="2" style="padding: 5px; background-color: #fff; border: none; text-align: right;">
                         General Average for the Semester : </th>
-                    <th colspan="4" style="padding: 5px; background-color: #fff; "></th>
+                    <th colspan="4" style="padding: 5px; background-color: #fff; text-align: center;">
+                        @if ($general_average_1st <= 0)
+                            0
+                        @else
+                            {{ number_format($general_average_1st / $count_num, 1) }}
+                        @endif
+                    </th>
                 </tr>
             </table>
 
@@ -601,17 +623,24 @@
                     $core_response_2nd = $subjs
                         ::where('subj_strand', $sections->sec_strand)
                         ->where('subj_type', 'Core')
-                        ->where('subj_semester', '2')
+                        ->where('subj_schoolid', $user['schoolid'])
+                        ->where('subj_gradelevel', $strand->sec_grade)
+                        ->where('subj_semester', 2)
                         ->orderBy('subj_title', 'ASC')
                         ->get();
 
                     $applied_response_2nd = $subjs
                         ::where('subj_strand', $sections->sec_strand)
-                        ->where('subj_type', 'Applied')
-                        ->where('subj_semester', '2')
+                        ->where(function ($query) {
+                            $query->where('subj_type', 'Applied')->orWhere('subj_type', 'Specialized');
+                        })
+                        ->where('subj_schoolid', $user['schoolid'])
+                        ->where('subj_gradelevel', $strand->sec_grade)
+                        ->where('subj_semester', 2)
                         ->orderBy('subj_title', 'ASC')
                         ->get();
                 @endphp
+                xx
                 @foreach ($core_response_2nd as $rw)
                     @php
                         $grade = 0;
@@ -638,6 +667,8 @@
                             $avg = 0;
                         } else {
                             $avg = ($grade_Q3 + $grade_Q4) / 2;
+                            $general_average_2nd += $avg;
+                            $count_num_2nd++;
                         }
                     @endphp
                     <tr>
@@ -718,7 +749,13 @@
                 <tr>
                     <th colspan="2" style="padding: 5px; background-color: #fff; border: none; text-align: right;">
                         General Average for the Semester : </th>
-                    <th colspan="4" style="padding: 5px; background-color: #fff; "></th>
+                    <th colspan="4" style="padding: 5px; background-color: #fff; text-align: center;">
+                        @if ($general_average_2nd <= 0)
+                            0
+                        @else
+                            {{ number_format($general_average_2nd / $count_num_2nd, 1) }}
+                        @endif
+                    </th>
                 </tr>
             </table>
 

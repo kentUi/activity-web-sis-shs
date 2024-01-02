@@ -70,7 +70,7 @@
                                             <label class="form-label">Select Strand</label>
                                             <div class="form-control-wrap">
                                                 <select name="inp_strand" class="form-select js-select2"
-                                                    data-placeholder="--">
+                                                    data-placeholder="--"> 
                                                     <option value="">--</option>
                                                     @foreach ($strands as $rw)
                                                         <option value="{{ $rw->of_id }}">{{ $rw->of_strands }}</option>

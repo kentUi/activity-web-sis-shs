@@ -7,7 +7,7 @@
                 <div class="nk-block-between">
                     <div class="nk-block-head-content">
                         <div class="nk-block-head-sub">
-                            <a class="back-to" href="/teacher/section/{{ $response[0]->student_secid }}">
+                            <a class="back-to" href="/teacher/advisory">
                                 <em class="icon ni ni-arrow-left"></em><span>Back</span>
                             </a>
                         </div>
@@ -87,7 +87,7 @@
                                                                     </a>
                                                                 </li> --}}
                                                                 <li>
-                                                                    <a href="/teacher/attendance/{{$rw->student_id}}">
+                                                                    <a href="/teacher/attendance/{{$rw->student_id}}/{{$sec_name->sec_id}}">
                                                                         <em class="icon ni ni-book"></em>
                                                                         <span> Attendance & Values</span>
                                                                     </a>

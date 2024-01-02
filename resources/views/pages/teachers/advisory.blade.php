@@ -28,21 +28,8 @@
                     @endphp
                     <div class="col-sm-12 col-lg-12 col-xxl-12">
                         <div class="card h-100">
-                            <div class="card-inner pb-1"
-                                style="min-height: 50px;background-image: url(&quot;{{ '/' . $cover[3] }}&quot;); 
-                                background-position:center; background-size: cover; padding: 20px;">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <a href="/teacher/students/" class="d-flex align-items-center">
-                                        <div class="user-avatar sq bg-success">
-                                            <span style="text-transform: uppercase;">
-                                                <em class="ni ni-users"></em>
-                                            </span>
-                                        </div>
-                                        <div class="ms-3">
-                                            List of Advisory
-                                        </div>
-                                    </a>
-                                </div>
+                            <div class="card-inner pb-1" style="">
+                                List of Assigned Sections
                             </div>
                             <div class="px-4 pt-2 pb-2 ">
                                 <table class="datatable-init table">

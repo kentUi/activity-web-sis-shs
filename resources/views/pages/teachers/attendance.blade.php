@@ -7,8 +7,8 @@
                 <div class="nk-block-between">
                     <div class="nk-block-head-content">
                         <div class="nk-block-head-sub">
-                            <a class="back-to">
-                                <em class="icon ni ni-arrow-left"></em><span>Back</span>
+                            <a class="back-to" href="/teacher/advisory/list/{{$secid}}">
+                                <em class="icon ni ni-arrow-left"></em><span>Back </span>
                             </a>
                         </div>
                         <h3 class="nk-block-title page-title">Student Attendance</h3>

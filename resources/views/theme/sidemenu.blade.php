@@ -54,9 +54,9 @@
                             </a>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="/sections" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-property"></em></span>
-                                <span class="nk-menu-text">Manage Sections</span>
+                            <a href="/strands" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
+                                <span class="nk-menu-text">Manage Strands</span>
                             </a>
                         </li>
                         <li class="nk-menu-item">
@@ -66,9 +66,15 @@
                             </a>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="/strands" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
-                                <span class="nk-menu-text">Manage Strands</span>
+                            <a href="/sections" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-property"></em></span>
+                                <span class="nk-menu-text">Manage Sections</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="/teachers" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-calendar"></em></span>
+                                <span class="nk-menu-text">Manage School Year</span>
                             </a>
                         </li>
                         <li class="nk-menu-heading pt-3">
@@ -88,13 +94,14 @@
                             <span class="nk-menu-icon"><em class="icon ni ni-book"></em></span>
                             <span class="nk-menu-text">Form 137/138 - Template</span>
                         </a>
-                    </li>                    
+                    </li>   
+                    --}}                 
                     <li class="nk-menu-item">
-                        <a href="html/lms/index.html" class="nk-menu-link">
+                        <a href="/principal" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
-                            <span class="nk-menu-text">School Header - Template</span>
+                            <span class="nk-menu-text">School Information</span>
                         </a>
-                    </li> --}}
+                    </li> 
                     @elseif ($user['type'] == 'admin')
                         {{-- <li class="nk-menu-item">
                         <a href="/strands" class="nk-menu-link">
@@ -130,9 +137,7 @@
                                 ->where('ass_type', 'advisory')
                                 ->count();
                         @endphp
-                        <li class="nk-menu-heading pt-3">
-                            <h6 class="overline-title text-primary-alt">Teacher Menu</h6>
-                        </li>
+
                         {{-- <li class="nk-menu-item has-sub">
                         <a href="/#" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
@@ -140,6 +145,9 @@
                         </a>
                     </li> --}}
                         @if ($check_assign != 0)
+                            <li class="nk-menu-heading pt-3">
+                                <h6 class="overline-title text-primary-alt">Teacher Menu</h6>
+                            </li>
                             <li class="nk-menu-item has-sub">
                                 <a href="/teacher/advisory" class="nk-menu-link">
                                     <span class="nk-menu-icon"><em class="icon ni ni-edit-alt"></em></span>
@@ -152,9 +160,9 @@
                         <h6 class="overline-title text-primary-alt">Settings</h6>
                     </li>
                     <li class="nk-menu-item">
-                        <a href="#" class="nk-menu-link">
+                        <a href="/member/change-password" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
-                            <span class="nk-menu-text">Account Settings</span>
+                            <span class="nk-menu-text">Change Password</span>
                         </a>
                     </li>
                     <li class="nk-menu-item">

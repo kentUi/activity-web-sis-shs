@@ -16,7 +16,7 @@
                                     class="icon ni ni-menu-alt-r"></em></a>
                             <div class="toggle-expand-content" data-content="pageMenu">
                                 <ul class="nk-block-tools g-3">
-                                    <li>
+                                    {{-- <li>
                                         <div class="drodown">
                                             <a href="#"
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
@@ -27,7 +27,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -72,14 +72,9 @@
                         <div class="card h-100">
                             <div class="card-inner pb-1" style="min-height: 50px">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <a href="/teacher/students/" class="d-flex align-items-center">
-                                        <div class="user-avatar sq bg-primary">
-                                            <span style="text-transform: uppercase;">
-                                                <em class="ni ni-folder"></em>
-                                            </span>
-                                        </div>
-                                        <div class="ms-3">
-                                            Control Each Quarter here.
+                                    <a href="#" class="d-flex align-items-center">
+                                        <div class="ms-3 text-dark" style="font-size: 18px">
+                                            <b>Control Each Quarter here.</b>
                                         </div>
                                     </a>
                                 </div>
@@ -148,7 +143,9 @@
                                 <center>
                                     <img src="/{{$schools->sc_logo}}" alt="" height="130">
                                     <hr>
-                                    <h5 style="letter-spacing: 2px;">SCHOOL YEAR : <b>2023-2024</b></h5>
+                                    <h5 style="letter-spacing: 2px;"><b>{{$schools->sc_name}}</b> <br>
+                                    <small>School ID : {{$schools->sc_id}}</small>
+                                    </h5>
                                 </center>
                             </div>
                         </div>

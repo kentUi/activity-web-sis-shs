@@ -9,7 +9,7 @@
                 <div class="nk-block-between">
                     <div class="nk-block-head-content">
                         <div class="nk-block-head-sub">
-                            <a class="back-to" href="/sections/view/{{ $section->sec_grade }}">
+                            <a class="back-to" href="/sections/view/{{ $section->sec_id }}">
                                 <em class="icon ni ni-arrow-left"></em><span>Back</span>
                             </a>
                         </div>

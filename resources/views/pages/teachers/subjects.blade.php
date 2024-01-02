@@ -31,6 +31,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Subject</th>
+                                                <th width="120">Semester</th>
                                                 <th width="200">Date Assigned</th>
                                                 <th width="50">Tools</th>
                                             </tr>
@@ -41,8 +42,14 @@
                                                     <td>
                                                         {{ $rw->subj_title }}
                                                     </td>
-                                                    @php 
-                                                    $number = $rw->ass_quarter;
+                                                    @if ($rw->subj_semester == 1)
+                                                        <td>{{ $rw->subj_semester }}st Semester</td>
+                                                    @else
+                                                        <td>{{ $rw->subj_semester }}nd Semester</td>
+                                                    @endif
+
+                                                    @php
+                                                        $number = $rw->ass_quarter;
                                                     @endphp
                                                     <td>{{ date_format(date_create($rw->created_at), 'M d. Y h:i A') }}</td>
                                                     <td>
@@ -54,9 +61,10 @@
                                                                         class="icon ni ni-more-h"></em></a>
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
-                                                                        <li><a href="/teacher/students/{{ $rw->sec_id }}/{{ $rw->subj_id }}/{{$number}}"><em
+                                                                        <li><a
+                                                                                href="/teacher/students/{{ $rw->sec_id }}/{{ $rw->subj_id }}/{{ $number }}"><em
                                                                                     class="icon ni ni-edit"></em><span>
-                                                                                        Upload Grade</span></a></li>
+                                                                                    Upload Grade</span></a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>

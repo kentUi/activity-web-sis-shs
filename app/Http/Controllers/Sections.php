@@ -96,8 +96,11 @@ class Sections extends Controller
 
     public static function registration()
     {
+        $user = session('info');
+        $id = $user['schoolid'];
+
         $strand = new Strand;
-        $strands = $strand::get();
+        $strands = $strand::where('of_schoolid', $id)->get();
         return view('pages.sections.registration')->with(['strands' => $strands]);
     }
 
@@ -113,6 +116,7 @@ class Sections extends Controller
             $join->on('ass_teacherid', '=', 'tech_id');
         })
             // ->where('sec_ict_id', $user['schoolid'])
+            ->where('ass_type', 'advisory')
             ->where('ass_secid', $id)
             ->orderBy('tech_lname', 'ASC')
             ->first();
